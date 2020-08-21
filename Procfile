@@ -1,0 +1,1 @@
+web: gunicorn AlbionDiff.wsgi --log-file -
