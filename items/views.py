@@ -7,6 +7,7 @@ from datetime import timedelta
 
 import requests
 from django.conf import settings
+from django.http import HttpResponse
 from django.shortcuts import render
 
 option_city = {'3008': 'Martlock', '0007': 'Thetford', '2004': 'Bridgewatch', '3005': 'Caerleon',
@@ -56,9 +57,14 @@ def search(request):
                     full_item = f'{tiers[tir]}_{items[i]}{charts[chart]}'
                 query_items.append(full_item)
     url_json = API + ','.join(query_items) + '?locations=' + '3003,' + option_city[city]
-    response_api = requests.get(url_json).json()
-    for i in range(0, len(response_api)):
-        qs_dict = response_api[i]
+
+    response_api = requests.get(url_json)
+    if response_api.status_code == 200:
+        json_response = response_api.json()
+    else:
+        return HttpResponse('Произошла ошибка попробуйте позже.')
+    for i in range(0, len(json_response)):
+        qs_dict = json_response[i]
         if qs_dict['buy_price_min_date'] == "0001-01-01T00:00:00" \
                 or qs_dict['sell_price_min_date'] == "0001-01-01T00:00:00" \
                 or qs_dict['sell_price_max_date'] == "0001-01-01T00:00:00" \

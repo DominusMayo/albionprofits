@@ -27,7 +27,7 @@ SECRET_KEY = '2m8#cr2am0l3773zz*_a5_um*!*5rk)z9@&zly*bci(&zu3mkf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['albiondiff.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -134,3 +134,17 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 django_heroku.settings(locals())
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+}
