@@ -2,8 +2,11 @@
 import copy
 import datetime
 import json
+import os
+from datetime import timedelta
 
 import requests
+from django.conf import settings
 from django.shortcuts import render
 
 option_city = {'3008': 'Martlock', '0007': 'Thetford', '2004': 'Bridgewatch', '3005': 'Caerleon',
@@ -20,9 +23,9 @@ quality_level = {1: 'Обычное', 2: 'Хорошее', 3: 'Потрясаю�
 
 API = 'https://www.albion-online-data.com/api/v2/stats/prices/'
 
-with open('items/static/items/items.json', 'r') as f:
+with open(os.path.join(settings.BASE_DIR, 'items/static/items/json/items.json'), 'r') as f:
     full_name = json.load(f)
-with open('items/static/items/russia.json', 'r', encoding='utf-8') as f:
+with open(os.path.join(settings.BASE_DIR, 'items/static/items/json/russia.json'), 'r', encoding='utf-8') as f:
     russia_name = json.load(f)
 
 
@@ -83,12 +86,15 @@ def search(request):
                 items_view['total_price_fast'] = '{:,}'.format(total_price_fast).replace(',', '.')
                 time_upd = datetime.datetime.strptime(qs_dict['buy_price_max_date'], '%Y-%m-%dT%H:%M:%S')
                 now_date = datetime.datetime.utcnow()
-                act_time = str(now_date - time_upd).split(':')[0]
-                items_view['time_add'] = act_time + " часов назад"
+                act_time = now_date - time_upd
+                time_to_view = str(act_time).split(':')[0]
+                items_view['time_add'] = time_to_view + " часов назад"
                 img_url = 'https://albionmarketdiff.ru/img/' + item_name_img + '.png'
+                actual_hours = timedelta(hours=5)
                 if not profit:
                     profit = 1
-                if total_price_order > int(profit) and price_market > 0 and int(act_time) < 5:
+                if total_price_order > int(profit) and price_market > 0 and act_time < actual_hours\
+                        and item_name != '':
                     list_item_view.append(copy.deepcopy(items_view))
                 else:
                     pass
