@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-import json
-import requests
 import copy
+import datetime
+import json
 
+import requests
 from django.shortcuts import render
 
 option_city = {'3008': 'Martlock', '0007': 'Thetford', '2004': 'Bridgewatch', '3005': 'Caerleon',
@@ -30,7 +31,6 @@ def index(request):
 
 
 def search(request):
-    global price_black_order
     query_items = []
     items_view = {}
     list_item_view = []
@@ -81,13 +81,14 @@ def search(request):
                 items_view['price_black_fast'] = '{:,}'.format(price_black_fast).replace(',', '.')
                 total_price_fast = price_black_fast - price_market
                 items_view['total_price_fast'] = '{:,}'.format(total_price_fast).replace(',', '.')
-                time_upd = qs_dict['buy_price_max_date']
-                items_view['time_add'] = time_upd
+                time_upd = datetime.datetime.strptime(qs_dict['buy_price_max_date'], '%Y-%m-%dT%H:%M:%S')
+                now_date = datetime.datetime.utcnow()
+                act_time = str(now_date - time_upd).split(':')[0]
+                items_view['time_add'] = act_time + " часов назад"
                 img_url = 'https://albionmarketdiff.ru/img/' + item_name_img + '.png'
-                list_item_view.append(copy.deepcopy(items_view))
                 if not profit:
                     profit = 1
-                if total_price_order > int(profit):
+                if total_price_order > int(profit) and price_market > 0 and int(act_time) < 5:
                     list_item_view.append(copy.deepcopy(items_view))
                 else:
                     pass

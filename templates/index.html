@@ -41,11 +41,11 @@
 {% endblock %}
 {% block content %}
     {% if error %}
-    <div class="results" style="padding-left: 230px; height: 800px; overflow: auto;">
+    <div class="results" style="padding-left: 230px; height: 600px; overflow: auto;">
         <h1 style="color: white"> Нет результатов</h1>
     </div>
     {% else %}
-        <div class="results" style="padding-left: 230px; height: 800px; overflow: scroll;">
+        <div class="results">
             <table id="table">
                 <tr class="header">
                     <td class="table_city">{{ town }}</td>
