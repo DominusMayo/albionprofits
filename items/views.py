@@ -46,7 +46,6 @@ def search(request):
     items = full_name[item]
     item_name = ''
     price_market = 0
-    img_url = ''
     error = False
     for i in range(0, len(items)):
         for tir in range(0, len(tiers)):
@@ -73,7 +72,7 @@ def search(request):
         else:
             if qs_dict['city'] != 'Black Market':
                 price_market = qs_dict['sell_price_min']
-                items_view['price_market'] = '{:,}'.format(price_market).replace(',', '.')
+                items_view['price_auction'] = '{:,}'.format(price_market).replace(',', '.')
             else:
                 for k, v in russia_name.items():
                     if k == qs_dict['item_id'][3:]:
@@ -85,17 +84,17 @@ def search(request):
                 price_black_order = qs_dict['sell_price_min']
                 items_view['price_black_order'] = '{:,}'.format(price_black_order).replace(',', '.')
                 total_price_order = price_black_order - price_market
-                items_view['total_price_order'] = '{:,}'.format(total_price_order).replace(',', '.')
+                items_view['profit_black_order'] = '{:,}'.format(total_price_order).replace(',', '.')
                 price_black_fast = qs_dict['buy_price_max']
                 items_view['price_black_fast'] = '{:,}'.format(price_black_fast).replace(',', '.')
                 total_price_fast = price_black_fast - price_market
-                items_view['total_price_fast'] = '{:,}'.format(total_price_fast).replace(',', '.')
+                items_view['profit_black_fast'] = '{:,}'.format(total_price_fast).replace(',', '.')
                 time_upd = datetime.datetime.strptime(qs_dict['buy_price_max_date'], '%Y-%m-%dT%H:%M:%S')
                 now_date = datetime.datetime.utcnow()
                 act_time = now_date - time_upd
                 time_to_view = str(act_time).split(':')[0]
-                items_view['time_add'] = time_to_view + " часов назад"
-                img_url = 'https://albionmarketdiff.ru/img/' + item_name_img + '.png'
+                items_view['act_time'] = time_to_view + " часов назад"
+                items_view['img_url'] = f'items/img/{item_name_img}.png'
                 actual_hours = timedelta(hours=5)
                 if not profit:
                     profit = 1
@@ -106,4 +105,4 @@ def search(request):
                     pass
     return render(request, 'index.html', context={'cities': option_city, 'items': option_items, 'tiers': option_tier,
                                                   'town': option_city[city], 'item_name': item_name, 'error': error,
-                                                  'list_item_view': list_item_view, 'img_url': img_url})
+                                                  'list_item_view': list_item_view})
