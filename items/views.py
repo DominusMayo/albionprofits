@@ -34,15 +34,27 @@ def index(request):
     return render(request, 'index.html', context={'cities': option_city, 'items': option_items, 'tiers': option_tier, })
 
 
+def is_digit(string):
+    if string.isdigit():
+        return True
+    else:
+        try:
+            float(string)
+            return True
+        except ValueError:
+            return False
+
+
 def search(request):
     query_items = []
     items_view = {}
     list_item_view = []
-    city = request.GET.get('city')
-    item = request.GET.get('item')
-    tiers = request.GET.getlist('tier')
-    charts = request.GET.getlist('chart')
-    profit = request.GET.get('profit').strip()
+    city = request.POST.get('city')
+    item = request.POST.get('item')
+    tiers = request.POST.getlist('tier')
+    charts = request.POST.getlist('chart')
+    profit = request.POST.get('profit').strip()
+    hours = request.POST.get('hours').strip()
     items = full_name[item]
     item_name = ''
     price_market = 0
@@ -95,10 +107,15 @@ def search(request):
                 time_to_view = str(act_time).split(':')[0]
                 items_view['act_time'] = time_to_view + " часов назад"
                 items_view['img_url'] = f'items/img/{item_name_img}.png'
-                actual_hours = timedelta(hours=5)
+                if not hours:
+                    actual_hours = timedelta(hours=5)
+                elif is_digit(hours):
+                    actual_hours = timedelta(hours=int(hours))
+                else:
+                    return HttpResponse('Invalid parameters')
                 if not profit:
                     profit = 1
-                if total_price_order > int(profit) and price_market > 0 and act_time < actual_hours\
+                if total_price_order > int(profit) and price_market > 0 and act_time < actual_hours \
                         and item_name != '':
                     list_item_view.append(copy.deepcopy(items_view))
                 else:

@@ -62,6 +62,12 @@ body {
 	padding: 0 5px 0 5px;
 	width: 100px;
 }
+#profit_limit{
+	padding-top: 20px;
+}
+#hours_limit{
+	padding-top: 20px;
+}
 .item .profit_sell {
 	text-align: center;
 	border: none;

@@ -27,7 +27,7 @@ SECRET_KEY = '2m8#cr2am0l3773zz*_a5_um*!*5rk)z9@&zly*bci(&zu3mkf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['albionprofits.tk']
 
 
 # Application definition

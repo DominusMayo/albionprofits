@@ -3,7 +3,8 @@
 
 {% block search %}
 <div class="search">
-    <form action="/search" method="get">
+    <form action="/search" method="post">
+        {% csrf_token %}
         <div class="input-group mb-3">
             <select id="city" class="form-control" name="city">
             {%  for k, v in cities.items %}
@@ -33,6 +34,9 @@
         </div>
         <div class="input-group mb-3">
             <input type="text" class="form-control" id="profit_limit" placeholder="Прибыль от" name='profit'>
+        </div>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" id="hours_limit" placeholder="Актуальность до" name='hours'>
         </div>
         <div class="input-group mb-3 search-butt">
             <input type="submit" class="btn-one" id="search" value="Поиск">
