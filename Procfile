@@ -1,1 +1,1 @@
-web: gunicorn AlbionDiff.wsgi --log-file -
+web: gunicorn albiondiff.wsgi --log-file -
