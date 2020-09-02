@@ -63,7 +63,7 @@ def get_items(city, item, charts, tiers, profit, hours, api=False):
                 else:
                     full_item = f'{tiers[tir]}_{items[i]}{charts[chart]}'
                 query_items.append(full_item)
-    url_json = API + ','.join(query_items) + '?locations=' + 'Black Market,' + option_city[city]
+    url_json = API + ','.join(query_items[:350]) + '?locations=' + 'Black Market,' + option_city[city]
     response_api = requests.get(url_json)
     if response_api.status_code == 200:
         json_response = response_api.json()
@@ -136,9 +136,9 @@ def search(request):
     hours = request.POST.get('hours').strip()
     list_item_view = get_items(city, item, charts, tiers, profit, hours)
     error = False
-    return render(request, 'index.html', context={'cities': option_city, 'items': option_items, 'tiers': option_tier,
-                                                  'town': option_city[city], 'error': error,
-                                                  'list_item_view': list_item_view})
+    return render(request, 'search.html', context={'cities': option_city, 'items': option_items, 'tiers': option_tier,
+                                                   'town': option_city[city], 'error': error,
+                                                   'list_item_view': list_item_view})
 
 
 @api_view(['GET'])
@@ -173,6 +173,7 @@ def two_city_compare(request):
         return HttpResponse('Invalid parameters')
     cities = [common_city, black_city]
     url_json = API + ','.join(values_category) + '?locations=' + ','.join(cities)
+    print(url_json)
     response_api = requests.get(url_json).json()
     items_black = []
     items_value_black = {}

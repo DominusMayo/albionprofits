@@ -57,6 +57,34 @@
     </div>
     {% else %}
         <div class="results">
+            <table id="table">
+                <tr class="header">
+                    <td class="table_city">{{ town }}</td>
+                    <td class="name">Название</td>
+                    <td class="quality">Качество</td>
+                    <td class="white_price_order">Закуп</td>
+                    <td class="black_price_order">Продажа(ордер)</td>
+                    <td class="black_price_buyout">Продажа(БП)</td>
+                    <td class="profit_sell">Прибыль (ордер)</td>
+                    <td class="profit_sell_buyout">Прибыль (БП)</td>
+                    <td class="black_date_order">Актуальность информации</td>
+                </tr>
+                {% for v in list_item_view %}
+                    <tr class="item" data-item-id="">
+                        <td class="table_city">
+                            <img src="{% static v.img_url %}" alt="">
+                        </td>
+                        <td class="name">{{ v.item_name }}</td>
+                        <td class="quality">{{ v.quality }}</td>
+                        <td class="white_price_order"><b>{{ v.price_auction }}</b></td>
+                        <td class="black_price_order"><b>{{  v.price_black_order }}</b></td>
+                        <td class="black_price_buyout"><b>{{ v.price_black_fast }}</b></td>
+                        <td class="profit_sell plus"><b>{{ v.profit_black_order }}</b></td>
+                        <td class="profit_sell_buyout"><b>{{ v.profit_black_fast }}</b></td>
+                        <td class="black_date_order">{{ v.act_time }}</td>
+                    </tr>
+                {% endfor %}
+                </table>
             </div>
     {% endif %}
 {% endblock %}
