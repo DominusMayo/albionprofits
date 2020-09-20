@@ -84,12 +84,8 @@ def get_items(city, item, charts, tiers, profit, hours, api=False):
             else:
                 for k, v in russia_name.items():
                     if k == qs_dict['item_id'][3:]:
-                        if '@' in qs_dict['item_id']:
-                            item_name = qs_dict['item_id'][:3] + v[0] + qs_dict['item_id'][:-2]
-                        else:
-                            item_name = qs_dict['item_id'][:3] + v[0]
+                        item_name = qs_dict['item_id'][:3] + v[0]
                 quality = qs_dict['quality']
-                items_view['quality'] = quality_level[quality]
                 item_name_img = qs_dict['item_id']
                 price_black_order = qs_dict['sell_price_min']
                 total_price_order = price_black_order - price_market
@@ -99,16 +95,21 @@ def get_items(city, item, charts, tiers, profit, hours, api=False):
                 now_date = datetime.datetime.utcnow()
                 act_time = now_date - time_upd
                 time_to_view = str(act_time).split(':')[0]
-                items_view['act_time'] = time_to_view + " часов назад"
                 if api:
-                    items_view['item_name'] = item_name
-                    items_view['act_time'] = time_to_view
-                    items_view['lease'] = price_market
-                    items_view['black_order'] = price_black_order
-                    items_view['current_rate'] = price_black_fast
-                    items_view['profit_black_order'] = total_price_order
-                    items_view['profit_black_rate'] = total_price_fast
+                    if '@' in item_name_img:
+                        items_view['item_name'] = item_name + item_name_img[-2:]
+                    else:
+                        items_view['item_name'] = item_name
+                        items_view['quality'] = quality_level[quality]
+                        items_view['lease'] = price_market
+                        items_view['black_order'] = price_black_order
+                        items_view['black_fast'] = price_black_fast
+                        items_view['profit_black_order'] = total_price_order
+                        items_view['profit_black_rate'] = total_price_fast
+                        items_view['act_time'] = time_to_view
                 else:
+                    items_view['act_time'] = time_to_view + " часов назад"
+                    items_view['quality'] = quality_level[quality]
                     items_view['item_name'] = item_name
                     items_view['price_black_order'] = '{:,}'.format(price_black_order).replace(',', '.')
                     items_view['profit_black_order'] = '{:,}'.format(total_price_order).replace(',', '.')
