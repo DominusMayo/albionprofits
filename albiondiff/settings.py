@@ -80,12 +80,8 @@ WSGI_APPLICATION = 'albiondiff.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': 'albdb.c9mx8sqrmf9s.us-east-2.rds.amazonaws.com',
-        'PORT': '3306',
-        'USER': 'albion',
-        'PASSWORD': 'albion12',
-        'NAME': 'albiondatabase',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase',
     }
 }
 
