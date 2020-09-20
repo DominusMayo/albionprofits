@@ -99,7 +99,7 @@ def get_items(city, item, charts, tiers, profit, hours, api=False):
                 time_to_view = str(act_time).split(':')[0]
                 items_view['act_time'] = time_to_view + " часов назад"
                 if api:
-                    items_view['act_time'] = int(time_to_view)
+                    items_view['act_time'] = time_to_view
                     items_view['lease'] = price_market
                     items_view['black_order'] = price_black_order
                     items_view['current_rate'] = price_black_fast
