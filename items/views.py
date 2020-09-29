@@ -50,14 +50,16 @@ def is_digit(string):
 
 def get_items(city, item, charts, tiers, profit, hours, api=False):
     query_items = []
-    items_view = {}
+    items_black = []
+    items_white = []
     list_item_view = []
+    items_view = {}
     items = full_name[item]
     item_name = ''
     price_market = 0
-    for i in range(0, len(items)):
-        for tir in range(0, len(tiers)):
-            for chart in range(0, len(charts)):
+    for i in range(len(items)):
+        for tir in range(len(tiers)):
+            for chart in range(len(charts)):
                 if charts[chart] == '0':
                     full_item = f'{tiers[tir]}_{items[i]}'
                 else:
@@ -69,22 +71,22 @@ def get_items(city, item, charts, tiers, profit, hours, api=False):
         json_response = response_api.json()
     else:
         return HttpResponse('Произошла ошибка попробуйте позже.')
-    for i in range(0, len(json_response)):
+    for i in range(len(json_response)):
         qs_dict = json_response[i]
         if qs_dict['buy_price_min_date'] == "0001-01-01T00:00:00" \
                 or qs_dict['sell_price_min_date'] == "0001-01-01T00:00:00" \
                 or qs_dict['sell_price_max_date'] == "0001-01-01T00:00:00" \
                 or qs_dict['buy_price_max_date'] == "0001-01-01T00:00:00":
             continue
+        elif qs_dict['sell_price_min'] == 0 and qs_dict['buy_price_max'] == 0:
+            continue
         else:
             if qs_dict['city'] != 'Black Market':
+                item_name_white = qs_dict['item_id']
+                quality_white = quality_level[qs_dict['quality']]
                 price_market = qs_dict['sell_price_min']
-                if not api:
-                    items_view['price_auction'] = '{:,}'.format(price_market).replace(',', '.')
+                items_white.append([item_name_white, quality_white, price_market])
             else:
-                for k, v in russia_name.items():
-                    if k == qs_dict['item_id'][3:]:
-                        item_name = qs_dict['item_id'][:3] + v[0]
                 quality = qs_dict['quality']
                 item_name_img = qs_dict['item_id']
                 price_black_order = qs_dict['sell_price_min']
@@ -95,27 +97,48 @@ def get_items(city, item, charts, tiers, profit, hours, api=False):
                 now_date = datetime.datetime.utcnow()
                 act_time = now_date - time_upd
                 time_to_view = str(act_time).split(':')[0]
+                items_black.append([item_name_img, quality_level[quality], price_black_order,
+                                    price_black_fast, time_to_view])
+    for i in range(len(items_black)):
+        for ind in range(len(items_white)):
+            if items_black[i][0] == items_white[ind][0] \
+                    and items_black[i][1] == items_white[ind][1]:
+                for k, v in russia_name.items():
+                    if k == items_black[i][0][3:]:
+                        name = items_black[i][0]
+                        item_name = name[:3] + v[0]
+                price_black_order = items_black[i][2]
+                price_black_fast = items_black[i][3]
+                price_auction = items_white[ind][2]
+                total_price_fast = price_black_fast - price_auction
+                total_price_order = price_black_order - price_auction
+                time = int(items_black[i][4])
+                act_time = timedelta(hours=time)
+                seconds = act_time.seconds
+                hour = str(seconds // 3600)
                 if api:
-                    if '@' in item_name_img:
-                        items_view['item_name'] = item_name + item_name_img[-2:]
+                    if '@' in items_white[ind][0]:
+                        items_view['item_name'] = item_name + items_white[ind][0][-2:]
                     else:
                         items_view['item_name'] = item_name
-                        items_view['quality'] = quality_level[quality]
-                        items_view['lease'] = price_market
-                        items_view['black_order'] = price_black_order
-                        items_view['black_fast'] = price_black_fast
+                        items_view['quality'] = items_white[ind][1]
+                        items_view['act_time'] = int(hour)
+                        items_view['price_auction'] = price_auction
+                        items_view['price_black_order'] = price_black_order
                         items_view['profit_black_order'] = total_price_order
-                        items_view['profit_black_rate'] = total_price_fast
-                        items_view['act_time'] = time_to_view
+                        items_view['price_black_fast'] = price_black_fast
+                        items_view['profit_black_fast'] = total_price_fast
                 else:
-                    items_view['act_time'] = time_to_view + " часов назад"
-                    items_view['quality'] = quality_level[quality]
                     items_view['item_name'] = item_name
+                    items_view['quality'] = items_white[ind][1]
+                    items_view['act_time'] = hour + ' часов назад'
+                    items_view['price_auction'] = '{:,}'.format(price_auction).replace(',', '.')
+                    items_view['price_black_order'] = '{:,}'.format(price_black_order).replace(',', '.')
                     items_view['price_black_order'] = '{:,}'.format(price_black_order).replace(',', '.')
                     items_view['profit_black_order'] = '{:,}'.format(total_price_order).replace(',', '.')
                     items_view['price_black_fast'] = '{:,}'.format(price_black_fast).replace(',', '.')
                     items_view['profit_black_fast'] = '{:,}'.format(total_price_fast).replace(',', '.')
-                    items_view['img_url'] = f'items/img/{item_name_img}.png'
+                    items_view['img_url'] = f'items/img/{items_white[ind][0]}.png'
                 if not hours:
                     actual_hours = timedelta(hours=5)
                 elif is_digit(hours):
@@ -124,7 +147,7 @@ def get_items(city, item, charts, tiers, profit, hours, api=False):
                     return HttpResponse('Invalid parameters')
                 if not profit:
                     profit = 1
-                if total_price_order > int(profit) and price_market > 0 and act_time < actual_hours \
+                if total_price_order > int(profit) and price_market > 0 and act_time <= actual_hours \
                         and item_name != '':
                     list_item_view.append(copy.deepcopy(items_view))
                 else:
