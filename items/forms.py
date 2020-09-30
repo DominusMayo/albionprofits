@@ -44,24 +44,25 @@ class SearchForm(forms.Form):
         ('@2', '2'),
         ('@3', '3'),
     )
-    city = forms.ChoiceField(label='', choices=city_choices, widget=forms.Select(attrs={'class': 'form-control',
-                                                                                        'id': 'city'}))
-    category_items = forms.ChoiceField(label='', choices=items_choices,
+    city = forms.ChoiceField(required=False, label='', choices=city_choices,
+                             widget=forms.Select(attrs={'class': 'form-control',
+                                                        'id': 'city'}))
+    category_items = forms.ChoiceField(required=False, label='', choices=items_choices,
                                        widget=forms.Select(attrs={'class': 'form-control',
                                                                   'id': 'items'}))
-    tiers = forms.MultipleChoiceField(label='', choices=tiers_choices, widget=forms.SelectMultiple(
+    tiers = forms.MultipleChoiceField(required=True, label='', choices=tiers_choices, widget=forms.SelectMultiple(
         attrs={'class': 'form-control',
                'id': 'tier'})
-    )
-    chart = forms.MultipleChoiceField(label='', choices=enchant_choices, widget=forms.SelectMultiple(
+                                      )
+    chart = forms.MultipleChoiceField(required=True, label='', choices=enchant_choices, widget=forms.SelectMultiple(
         attrs={'class': 'form-control',
                'id': 'chart'})
-    )
-    profit = forms.IntegerField(label='', widget=forms.TextInput(attrs={'class': 'form-control',
-                                                                        'id': 'profit_limit',
-                                                                        'placeholder': 'Прибыль от'}),
+                                      )
+    profit = forms.IntegerField(required=False, label='', widget=forms.TextInput(attrs={'class': 'form-control',
+                                                                                        'id': 'profit_limit',
+                                                                                        'placeholder': 'Прибыль от'}),
                                 max_value=100000000)
-    hours = forms.IntegerField(label='', widget=forms.TextInput(attrs={'class': 'form-control',
-                                                                       'id': 'hours_limit',
-                                                                       'placeholder': 'Актуальность до'}),
+    hours = forms.IntegerField(required=False, label='', widget=forms.TextInput(attrs={'class': 'form-control',
+                                                                                       'id': 'hours_limit',
+                                                                                       'placeholder': 'Актуальность до'}),
                                max_value=99)
