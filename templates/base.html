@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}<title>Получение самых выгодных сделок Альбиона</title>{% endblock %}
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Получение самых выгодных сделок между городами и Чёрным рынком Албиона.">
+    <link rel = 'stylesheet' href="{% static 'items/css/styles.css' %}">
+    <script async src="{% static "items/js/jquery.min.js" %}"></script>
+    <script async src="{% static "items/js/script.js" %}"></script>
+</head>
+<body>
+    <div class="wrapper">
+        {% block info %}
+            <div class="info">
+                <input type="button" class="btn-info" id="info" value="Инфо">
+                <input type="button" class="btn-api" id="api" value="Для разработчиков">
+            </div>
+        {% endblock %}
+    {% block search %}
+        <div class="search">
+            <form action="/search" method="get">
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                    {{ form.city }}
+                </div>
+                <div class="input-group mb-3">
+                    {{ form.category_items }}
+                </div>
+                <div class="input-group mb-3 tier">
+                    {{ form.tiers }}
+                    {{ form.chart }}
+                </div>
+                <div class="input-group mb-3 ">
+                    {{ form.profit }}
+                </div>
+                <div class="input-group mb-3 ">
+                    {{ form.hours }}
+                </div>
+                <div class="input-group mb-3 search-butt">
+                    <input type="submit" class="btn-one" id="search" value="Поиск">
+            </div>
+            </form>
+        </div>
+    {% endblock search %}
+        {% block content %}
+            <div class="results">
+                <table id="table">
+                    <tr class="header">
+                        <td class="table_city">{{ town }}</td>
+                        <td class="name">Название</td>
+                        <td class="quality">Качество</td>
+                        <td class="white_price_order">Закуп</td>
+                        <td class="black_price_order">Продажа(ордер)</td>
+                        <td class="black_price_buyout">Продажа(БП)</td>
+                        <td class="profit_sell">Прибыль (ордер)</td>
+                        <td class="profit_sell_buyout">Прибыль (БП)</td>
+                        <td class="black_date_order">Актуальность информации</td>
+                    </tr>
+                </table>
+            </div>
+        {% endblock %}
+    </div>
+</body>
+</html>

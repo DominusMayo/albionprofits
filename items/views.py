@@ -9,19 +9,22 @@ import requests
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.utils.datastructures import MultiValueDictKeyError
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from items.forms import SearchForm
 
 option_city = {'3008': 'Martlock', '0007': 'Thetford', '2004': 'Bridgewatch', '3005': 'Caerleon',
                '1002': 'Lymhurst', '4002': 'Fort Sterling'}
+
 option_items = {'mellee_sword': 'Мечи', 'range': 'Оружие дальнего боя', 'mellee_mace': 'Булавы',
-                'mellee_staff': 'Шесты', 'mellee_hammer': 'Молоты', 'mellee_daggers': 'Кинжалы', 'mellee_axe': 'Топоры',
-                'staff': 'Посохи/Магия', 'plate_shoes': 'Латные ботинки', 'plate_head': 'Латные шлемы',
-                'plate_armor': 'Латные доспехи', 'leather_shoes': 'Кожанные ботинки',
-                'leather_head': 'Кожанные капюшоны', 'leather_armor': 'Кожанные доспехи',
-                'cloth_shoes': 'Тканевые ботинки', 'cloth_armor': 'Тканевые доспехи', 'cloth_head': 'Тканевые колпаки',
-                'capes': 'Плащи', 'bags': 'Сумки'}
+                'mellee_staff': 'Шесты', 'mellee_hammer': 'Молоты', 'mellee_daggers': 'Кинжалы',
+                'mellee_axe': 'Топоры', 'staff': 'Посохи/Магия', 'plate_shoes': 'Латные ботинки',
+                'plate_head': 'Латные шлемы', 'plate_armor': 'Латные доспехи',
+                'leather_shoes': 'Кожанные ботинки', 'leather_head': 'Кожанные капюшоны',
+                'leather_armor': 'Кожанные доспехи', 'cloth_shoes': 'Тканевые ботинки',
+                'cloth_armor': 'Тканевые доспехи', 'cloth_head': 'Тканевые колпаки', 'capes': 'Плащи',
+                'bags': 'Сумки'}
+
 option_tier = ['T4', 'T5', 'T6', 'T7', 'T8']
 quality_level = {1: 'Обычное', 2: 'Хорошее', 3: 'Потрясающее', 4: 'Превосходное', 5: 'Шедевр'}
 
@@ -29,12 +32,15 @@ API = 'https://www.albion-online-data.com/api/v2/stats/prices/'
 
 with open(os.path.join(settings.BASE_DIR, 'items/static/items/json/items.json'), 'r') as f:
     full_name = json.load(f)
+
 with open(os.path.join(settings.BASE_DIR, 'items/static/items/json/russia.json'), 'r', encoding='utf-8') as f:
     russia_name = json.load(f)
 
 
 def index(request):
-    return render(request, 'index.html', context={'cities': option_city, 'items': option_items, 'tiers': option_tier, })
+    form = SearchForm()
+    return render(request, 'base.html', context={'cities': option_city, 'items': option_items,
+                                                 'tiers': option_tier, 'form': form})
 
 
 def is_digit(string):
@@ -48,7 +54,28 @@ def is_digit(string):
             return False
 
 
-def get_items(city, item, charts, tiers, profit, hours, api=False):
+def get_items(city, item, enchant, tiers, profit, hours, api=False):
+    """Fetch items with profit from albion data project
+
+
+    Retrieves rows with the given parameters profits and current hours.
+
+
+    Args:
+        city: city for getting items.
+        item: item category to select items.
+        enchant: enchant for items.
+        tiers: item ranks.
+        profit: profit for a given parameter.
+        hours: hours for a given parameter.
+        api: fetch for json api.
+
+    Returns:
+        Json-like object for view in table on site.
+        If items not found return empty list of dictionaries.
+        Return HttpResponse with 'invalid parameters' if parameters are not correct.
+        Return HttpResponse with 'Произошла ошибка попробуйте позже.' if albion data project return Error
+    """
     query_items = []
     items_black = []
     items_white = []
@@ -59,11 +86,11 @@ def get_items(city, item, charts, tiers, profit, hours, api=False):
     price_market = 0
     for i in range(len(items)):
         for tir in range(len(tiers)):
-            for chart in range(len(charts)):
-                if charts[chart] == '0':
+            for chant in range(len(enchant)):
+                if enchant[chant] == '0':
                     full_item = f'{tiers[tir]}_{items[i]}'
                 else:
-                    full_item = f'{tiers[tir]}_{items[i]}{charts[chart]}'
+                    full_item = f'{tiers[tir]}_{items[i]}{enchant[chant]}'
                 query_items.append(full_item)
     url_json = API + ','.join(query_items[:350]) + '?locations=' + 'Black Market,' + option_city[city]
     response_api = requests.get(url_json)
@@ -90,9 +117,7 @@ def get_items(city, item, charts, tiers, profit, hours, api=False):
                 quality = qs_dict['quality']
                 item_name_img = qs_dict['item_id']
                 price_black_order = qs_dict['sell_price_min']
-                total_price_order = price_black_order - price_market
                 price_black_fast = qs_dict['buy_price_max']
-                total_price_fast = price_black_fast - price_market
                 time_upd = datetime.datetime.strptime(qs_dict['buy_price_max_date'], '%Y-%m-%dT%H:%M:%S')
                 now_date = datetime.datetime.utcnow()
                 act_time = now_date - time_upd
@@ -156,17 +181,24 @@ def get_items(city, item, charts, tiers, profit, hours, api=False):
 
 
 def search(request):
-    city = request.POST.get('city')
-    item = request.POST.get('item')
-    tiers = request.POST.getlist('tier')
-    charts = request.POST.getlist('chart')
-    profit = request.POST.get('profit').strip()
-    hours = request.POST.get('hours').strip()
-    list_item_view = get_items(city, item, charts, tiers, profit, hours)
-    error = False
-    return render(request, 'search.html', context={'cities': option_city, 'items': option_items, 'tiers': option_tier,
-                                                   'town': option_city[city], 'error': error,
-                                                   'list_item_view': list_item_view})
+    if request.method == 'GET':
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            city = request.GET.get('city')
+            item = request.GET.get('category_items')
+            tiers = request.GET.getlist('tiers')
+            charts = request.GET.getlist('chart')
+            profit = request.GET.get('profit').strip()
+            hours = request.GET.get('hours').strip()
+            list_item_view = get_items(city, item, charts, tiers, profit, hours)
+            return render(request, 'search.html', context={'cities': option_city, 'items': option_items,
+                                                           'tiers': option_tier, 'town': option_city[city],
+                                                           'list_item_view': list_item_view, 'form': form})
+        else:
+            form = SearchForm()
+
+        return render(request, 'base.html', context={'cities': option_city, 'items': option_items,
+                                                     'tiers': option_tier, 'form': form})
 
 
 @api_view(['GET'])
@@ -174,7 +206,7 @@ def black_albion_api(request):
     if request.GET.get('format') != 'json':
         return HttpResponse('invalid parameters')
     city = request.GET.get('city')
-    item = request.GET.get('item')
+    item = request.GET.get('category_items')
     tiers = request.GET.getlist('tier')
     tiers_api = tiers[0].split(',')
     charts = request.GET.getlist('chart')
@@ -183,55 +215,3 @@ def black_albion_api(request):
     hours = request.GET.get('hours')
     json_response = get_items(city, item, charts_api, tiers_api, profit, hours, api=True)
     return Response(json_response)
-
-
-@api_view(['GET'])
-def two_city_compare(request):
-    try:
-        response_format = request.GET['format']
-        if response_format != 'json':
-            return HttpResponse('Invalid parameters')
-        category = request.GET['category']
-        values_category = full_name[category]
-        locations = request.GET['locations'].split(',')
-        common_city = locations[0]
-        black_city = locations[1]
-        expected_profit = int(request.GET['profit'])
-    except (MultiValueDictKeyError, IndexError, ValueError, KeyError):
-        return HttpResponse('Invalid parameters')
-    cities = [common_city, black_city]
-    url_json = API + ','.join(values_category) + '?locations=' + ','.join(cities)
-    print(url_json)
-    response_api = requests.get(url_json).json()
-    items_black = []
-    items_value_black = {}
-    items_common = []
-    items_value_common = {}
-    for i in range(len(response_api)):
-        if response_api[i]['city'] == cities[1]:
-            items_value_black['name'] = response_api[i]['item_id']
-            items_value_black['price'] = response_api[i]['sell_price_min']
-            items_black.append(copy.deepcopy(items_value_black))
-        elif response_api[i]['city'] == cities[0]:
-            items_value_common['name'] = response_api[i]['item_id']
-            items_value_common['price'] = response_api[i]['sell_price_min']
-            items_common.append(copy.deepcopy(items_value_common))
-    profits = []
-    items_profit = {}
-    for i in range(len(items_common)):
-        try:
-            if items_black[i]['price'] > 0:
-                price_common = items_common[i]['price']
-                price_black = items_black[i]['price']
-                name_item = items_common[i]['name']
-                profit = price_common - price_black
-                if profit >= expected_profit:
-                    items_profit['item_id'] = name_item
-                    items_profit['city'] = ','.join(cities)
-                    items_profit['price_first'] = price_common
-                    items_profit['price_second'] = price_black
-                    items_profit['profit'] = profit
-                    profits.append(copy.deepcopy(items_profit))
-        except IndexError:
-            return HttpResponse('Invalid city')
-    return Response(profits)
