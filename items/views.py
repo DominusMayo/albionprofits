@@ -13,9 +13,6 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from items.forms import SearchForm
 
-option_city = {'3008': 'Martlock', '0007': 'Thetford', '2004': 'Bridgewatch', '3005': 'Caerleon',
-               '1002': 'Lymhurst', '4002': 'Fort Sterling'}
-
 option_items = {'mellee_sword': 'Мечи', 'range': 'Оружие дальнего боя', 'mellee_mace': 'Булавы',
                 'mellee_staff': 'Шесты', 'mellee_hammer': 'Молоты', 'mellee_daggers': 'Кинжалы',
                 'mellee_axe': 'Топоры', 'staff': 'Посохи/Магия', 'plate_shoes': 'Латные ботинки',
@@ -39,8 +36,7 @@ with open(os.path.join(settings.BASE_DIR, 'items/static/items/json/russia.json')
 
 def index(request):
     form = SearchForm()
-    return render(request, 'base.html', context={'cities': option_city, 'items': option_items,
-                                                 'tiers': option_tier, 'form': form})
+    return render(request, 'form.html', context={'form': form})
 
 
 def is_digit(string):
@@ -92,7 +88,7 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False):
                 else:
                     full_item = f'{tiers[tir]}_{items[i]}{enchant[chant]}'
                 query_items.append(full_item)
-    url_json = API + ','.join(query_items[:350]) + '?locations=' + 'Black Market,' + option_city[city]
+    url_json = API + ','.join(query_items[:350]) + '?locations=' + 'Black Market,' + city
     response_api = requests.get(url_json)
     if response_api.status_code == 200:
         json_response = response_api.json()
@@ -196,14 +192,22 @@ def search(request):
                 pass
             else:
                 error = True
-            return render(request, 'search.html', context={'cities': option_city, 'items': option_items,
-                                                           'tiers': option_tier, 'town': option_city[city],
+            return render(request, 'search.html', context={'items': option_items,
+                                                           'tiers': option_tier, 'town': city,
                                                            'list_item_view': list_item_view, 'form': form,
                                                            'error': error})
         else:
             form = SearchForm()
-        return render(request, 'base.html', context={'cities': option_city, 'items': option_items,
+        return render(request, 'form.html', context={'items': option_items,
                                                      'tiers': option_tier, 'form': form}, status=500)
+
+
+def info(request):
+    return render(request, 'info.html')
+
+
+def development(request):
+    return render(request, 'api.html')
 
 
 @api_view(['GET'])

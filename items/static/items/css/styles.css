@@ -166,6 +166,10 @@ body {
 	width:48%;
 	display: inline-flex;
 }
+a{
+	text-decoration: none;
+	color: white;
+}
 .search-butt .form-control{
 	background: #fff;
     color: #202020;
@@ -184,6 +188,22 @@ body {
 }
 .search .tier, .search .chart{
 	width:100%;
+}
+.api-page {
+	overflow: scroll;
+	height: 550px;
+	overflow-x: hidden;
+}
+#github-link{
+	color: #6dc0c8;
+	text-decoration: underline;
+}
+#api_black{
+	color:#add8e6;
+}
+li {
+	list-style-type: none;
+	color: white;
 }
 .search .form-control{
 	border: 0;
@@ -235,6 +255,9 @@ body {
 	height: 50px;
     cursor: pointer;
 }
+.btn-info:hover{
+	border:1px solid #fff;
+}
 .btn-api{
 	outline: none;
 	margin-bottom: 10px;
@@ -245,6 +268,26 @@ body {
     width: 135px;
 	height: 50px;
     cursor: pointer;
+}
+.btn-api:hover{
+	border:1px solid #fff;
+}
+p{
+	color: white;
+}
+.btn-main{
+	outline: none;
+	margin-bottom: 10px;
+    border: 1px solid #929292;
+    background: none;
+	border-radius: 10px;
+    color: #fff;
+    width: 135px;
+	height: 50px;
+    cursor: pointer;
+}
+.btn-main:hover{
+	border:1px solid #fff;
 }
 .results::-webkit-scrollbar{
 	width: 20px;
@@ -290,6 +333,16 @@ tr .item:focus{
 .item .name{
 	padding: 5px 3px;
 	color: white;
+}
+.info-page{
+	color: white;
+	overflow: scroll;
+	height: 550px;
+	overflow-x: hidden;
+}
+#powered-by{
+	color: #6dc0c8;
+	text-decoration: underline;
 }
 .black_date_order{
 	padding-left: 5px;
@@ -375,4 +428,31 @@ option {
 	content:'Актуальность цен и информации';
 	display:block;
 	left: -85px;
+}
+::-webkit-scrollbar-button {
+	width:5px;
+	height:0;
+}
+
+::-webkit-scrollbar-track {
+background-color:#ecedee
+}
+
+::-webkit-scrollbar-thumb {
+-webkit-border-radius: 0;
+border-radius: 0;
+background-color:#6dc0c8;
+}
+
+::-webkit-scrollbar-thumb:hover{
+background-color:#56999f;
+}
+
+::-webkit-resizer{
+width:4px;
+height:0;
+}
+
+::-webkit-scrollbar{
+width: 4px;
 }

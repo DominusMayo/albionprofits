@@ -3,12 +3,12 @@ from django import forms
 
 class SearchForm(forms.Form):
     city_choices = (
-        ('3008', 'Martlock'),
-        ('0007', 'Thetford'),
-        ('2004', 'Bridgewatch'),
-        ('3005', 'Caerleon'),
-        ('1002', 'Lymhurst'),
-        ('4002', 'Fort Sterling')
+        ('Martlock', 'Martlock'),
+        ('Thetford', 'Thetford'),
+        ('Bridgewatch', 'Bridgewatch'),
+        ('Caerleon', 'Caerleon'),
+        ('Lymhurst', 'Lymhurst'),
+        ('Fort Sterling', 'Fort Sterling')
     )
     items_choices = (
         ('mellee_sword', 'Мечи'),

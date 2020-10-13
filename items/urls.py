@@ -13,4 +13,6 @@ urlpatterns = [
                                                "Sitemap: https://albionprofits.tk/static/items/data/sitemap.xml",
                                                content_type="text/plain"), name="robots_file"),
     url('api/albion/prices/black', views.black_albion_api, name='black_prices'),
+    path('info', views.info, name='info_page'),
+    path('api', views.development, name='api_info'),
 ]

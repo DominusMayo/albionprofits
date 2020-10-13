@@ -12,42 +12,20 @@
 </head>
 <body>
     <div class="wrapper">
-        {% block info %}
+        {% block info-btn %}
             <div class="info">
-                <input type="button" class="btn-info" id="info" value="Инфо">
-                <input type="button" class="btn-api" id="api" value="Для разработчиков">
+                <button type="button" class="btn-info" id="info"><a href="{% url 'info_page' %}">Инфо</a></button>
+                <button type="button" class="btn-api" id="api"><a href="{% url 'api_info' %}">Для разработчиков</a></button>
+                <button type="button" class="btn-main" id="main"><a href="{% url 'item_view' %}">На главную</a></button>
             </div>
-        {% endblock %}
-    {% block search %}
-        <div class="search">
-            <form action="/search" method="GET" id="search-form">
-                <div class="input-group mb-3">
-                    {{ form.city }}
-                </div>
-                <div class="input-group mb-3">
-                    {{ form.category_items }}
-                </div>
-                <div class="input-group mb-3 tier">
-                    {{ form.tiers }}
-                    {{ form.chart }}
-                </div>
-                <div class="input-group mb-3 ">
-                    {{ form.profit }}
-                </div>
-                <div class="input-group mb-3 ">
-                    {{ form.hours }}
-                </div>
-                <div class="input-group mb-3 search-butt">
-                    <button type="submit" class="btn-one" id="search">Поиск</button>
-            </div>
-            </form>
-        </div>
-    {% endblock search %}
-    {% block content %}
-        <div class="results">
+        {% endblock info-btn%}
 
-        </div>
-    {% endblock content %}
+        {% block search-form %}
+        {% endblock search-form %}
+        {% block content %}
+            <div class="results">
+            </div>
+        {% endblock content %}
     </div>
 </body>
 </html>

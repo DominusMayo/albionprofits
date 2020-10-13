@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block search-form %}
+        <div class="search">
+            <form action="/search" method="GET" id="search-form">
+                <div class="input-group mb-3">
+                    {{ form.city }}
+                </div>
+                <div class="input-group mb-3">
+                    {{ form.category_items }}
+                </div>
+                <div class="input-group mb-3 tier">
+                    {{ form.tiers }}
+                    {{ form.chart }}
+                </div>
+                <div class="input-group mb-3 ">
+                    {{ form.profit }}
+                </div>
+                <div class="input-group mb-3 ">
+                    {{ form.hours }}
+                </div>
+                <div class="input-group mb-3 search-butt">
+                    <button type="submit" class="btn-one" id="search">Поиск</button>
+            </div>
+            </form>
+        </div>
+{% endblock search-form %}
