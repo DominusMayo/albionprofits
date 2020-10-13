@@ -208,6 +208,11 @@ body {
 	color:#202020;
 	border: 1px solid #fff;
 }
+.no-results{
+	color: white;
+	font-size: large;
+	padding-left: 50px;
+}
 .results{
 	background: rgba(255, 255, 255, 0);
 	width: 81%;

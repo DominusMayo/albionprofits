@@ -181,6 +181,7 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False):
 
 
 def search(request):
+    error = False
     if request.method == 'GET':
         form = SearchForm(request.GET)
         if form.is_valid():
@@ -191,14 +192,18 @@ def search(request):
             profit = request.GET.get('profit').strip()
             hours = request.GET.get('hours').strip()
             list_item_view = get_items(city, item, charts, tiers, profit, hours)
+            if list_item_view:
+                pass
+            else:
+                error = True
             return render(request, 'search.html', context={'cities': option_city, 'items': option_items,
                                                            'tiers': option_tier, 'town': option_city[city],
-                                                           'list_item_view': list_item_view, 'form': form})
+                                                           'list_item_view': list_item_view, 'form': form,
+                                                           'error': error})
         else:
             form = SearchForm()
-
         return render(request, 'base.html', context={'cities': option_city, 'items': option_items,
-                                                     'tiers': option_tier, 'form': form})
+                                                     'tiers': option_tier, 'form': form}, status=500)
 
 
 @api_view(['GET'])

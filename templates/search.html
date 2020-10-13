@@ -1,20 +1,19 @@
-{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
-    <div class="results">
-        <table id="table">
-            <tr class="header">
-                <td class="table_city">{{ town }}</td>
-                <td class="name">Название</td>
-                <td class="quality">Качество</td>
-                <td class="white_price_order">Закуп</td>
-                <td class="black_price_order">Продажа(ордер)</td>
-                <td class="black_price_buyout">Продажа(БП)</td>
-                <td class="profit_sell">Прибыль (ордер)</td>
-                <td class="profit_sell_buyout">Прибыль (БП)</td>
-                <td class="black_date_order">Актуальность информации</td>
-            </tr>
+    <table id="table">
+        <tr class="header">
+            <td class="table_city">{{ town }}</td>
+            <td class="name">Название</td>
+            <td class="quality">Качество</td>
+            <td class="white_price_order">Закуп</td>
+            <td class="black_price_order">Продажа(ордер)</td>
+            <td class="black_price_buyout">Продажа(БП)</td>
+            <td class="profit_sell">Прибыль (ордер)</td>
+            <td class="profit_sell_buyout">Прибыль (БП)</td>
+            <td class="black_date_order">Актуальность информации</td>
+        </tr>
+        {% if not error %}
             {% for v in list_item_view %}
                 <tr class="item" data-item-id="">
                     <td class="table_city">
@@ -30,6 +29,8 @@
                     <td class="black_date_order">{{ v.act_time }}</td>
                 </tr>
             {% endfor %}
-        </table>
-    </div>
+        {% else %}
+            <td class="no-results">Нет результатов</td>
+        {% endif %}
+    </table>
 {% endblock %}

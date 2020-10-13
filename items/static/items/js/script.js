@@ -8,3 +8,18 @@ $(document).on("click", ".item td img", function(){
 			$(trObj).addClass("checked");
 		}
 	});
+
+$(document).on('click', '#search', function (e){
+   e.preventDefault();
+   let form = $('form');
+   $.ajax({
+    type: "GET",
+    url: "search",
+    data: form.serialize(),
+    dataType: "html",
+    cache: false,
+    success: function(data) {
+      $('.results').append(data);
+    }
+  });
+});
