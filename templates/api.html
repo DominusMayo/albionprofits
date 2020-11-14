@@ -3,13 +3,12 @@
 {% block content %}
     <div class="api-page">
         <p>Для разработчиков имеется API для получения в json формате вместо графического интерфейса.<br>
-        В данный момент имеется только одна точка для получения выгодных сделок между городом и черным рынком.</p>
-        <p>В разработке интерфейс и API для получения выгодных сделок между двумя городами.</p>
-        <p><strong>Выгодные сделки между черным рынком и городом(JSON)</strong>:
-            <br> <a id="api_black" href="api/albion/prices/black?format=json&city=3008&category_items=mellee_sword&tier=T4,T5,T6,T7,T8&chart=0,@1,@2,@3&profit=&hours=">
-                https://albionprofits.tk/api/albion/prices/black?format=json&city=3008&category_items=mellee_sword&tier=T4,T5,T6,T7,T8&chart=0,@1,@2,@3&profit=&hours=</a>
+        В данный момент имеется только одна точка для получения выгодных сделок между двумя городами.</p>
+        <p><strong>Выгодные сделки между двумя городами(JSON)</strong>:
+            <br> <a id="api_black" href="/api/albion/prices/cities?format=json&locations=Thetford,Martlock&category_items=mellee_sword&tier=T4&chart=0&chart=%401&chart=%402&profit=&hours=">
+                https://albionprofits.tk/api/albion/prices/cities?format=json&locations=Thetford,Martlock&category_items=mellee_sword&tier=T4&chart=0&chart=%401&chart=%402&profit=&hours=</a>
         <p>Параметры:</p>
-        <li>city: город для получения предметов.</li>
+        <li>locations: по очереди город закупа, город продажи</li>
         <li>category_items: категория предметов для поиска. Подробнее ниже.</li>
         <li>tiers: тир предметов.</li>
         <li>chart: зачарование для предметов.</li>

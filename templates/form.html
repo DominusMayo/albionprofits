@@ -3,7 +3,10 @@
         <div class="search">
             <form action="/search" method="GET" id="search-form">
                 <div class="input-group mb-3">
-                    {{ form.city }}
+                    {{ form.first_city }}
+                </div>
+                <div class="input-group mb-3">
+                    {{ form.second_city }}
                 </div>
                 <div class="input-group mb-3">
                     {{ form.category_items }}

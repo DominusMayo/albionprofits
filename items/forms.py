@@ -2,13 +2,22 @@ from django import forms
 
 
 class SearchForm(forms.Form):
+    first_city_choices = (
+        ('Black Market', 'Black Market'),
+        ('Martlock', 'Martlock'),
+        ('Thetford', 'Thetford'),
+        ('Bridgewatch', 'Bridgewatch'),
+        ('Caerleon', 'Caerleon'),
+        ('Lymhurst', 'Lymhurst'),
+        ('Fort Sterling', 'Fort Sterling'),
+    )
     city_choices = (
         ('Martlock', 'Martlock'),
         ('Thetford', 'Thetford'),
         ('Bridgewatch', 'Bridgewatch'),
         ('Caerleon', 'Caerleon'),
         ('Lymhurst', 'Lymhurst'),
-        ('Fort Sterling', 'Fort Sterling')
+        ('Fort Sterling', 'Fort Sterling'),
     )
     items_choices = (
         ('mellee_sword', 'Мечи'),
@@ -44,9 +53,12 @@ class SearchForm(forms.Form):
         ('@2', '2'),
         ('@3', '3'),
     )
-    city = forms.ChoiceField(required=False, label='', choices=city_choices,
+    first_city = forms.ChoiceField(required=False, label='', choices=first_city_choices,
+                                   widget=forms.Select(attrs={'class': 'form-control',
+                                                              'id':'first_city'}))
+    second_city = forms.ChoiceField(required=False, label='', choices=city_choices,
                              widget=forms.Select(attrs={'class': 'form-control',
-                                                        'id': 'city'}))
+                                                        'id': 'second_city'}))
     category_items = forms.ChoiceField(required=False, label='', choices=items_choices,
                                        widget=forms.Select(attrs={'class': 'form-control',
                                                                   'id': 'items'}))

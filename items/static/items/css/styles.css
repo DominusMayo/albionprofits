@@ -34,7 +34,7 @@ body {
 	width: 980px;
     height: 88%;
     float: left;
-    padding-left: 500px;
+    padding-left: 50px;
     overflow-y: scroll;
 	max-width: 800px;
 }
@@ -409,19 +409,19 @@ option {
 	display:block;
 }
 .header .black_price_order:hover:before{
-	content:'Цена продажи предмета на черном рынке';
+	content:'Цена продажи предмета во втором городе';
 	display:block;
 }
 .header .black_price_buyout:hover:before{
-	content:'Текущая ставка черного рынка на предмет';
+	content:'Текущая ставка второго города на предмет';
 	display:block;
 }
 .header .profit_sell:hover:before{
-	content:'Разница закупочной цены в городе и цены продажи на черном рынке';
+	content:'Разница закупочной цены в городе и цены продажи во втором городе';
 	display:block;
 }
 .header .profit_sell_buyout:hover:before{
-	content:'Разница закупочной цены в городе и текущий ставки на черном рынке';
+	content:'Разница закупочной цены в городе и текущий ставки во втором городе';
 	display:block;
 }
 .header .black_date_order:hover:before{

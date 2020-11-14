@@ -50,7 +50,7 @@ def is_digit(string):
             return False
 
 
-def get_items(city, item, enchant, tiers, profit, hours, api=False):
+def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='Black Market'):
     """Fetch items with profit from albion data project
 
 
@@ -88,7 +88,7 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False):
                 else:
                     full_item = f'{tiers[tir]}_{items[i]}{enchant[chant]}'
                 query_items.append(full_item)
-    url_json = API + ','.join(query_items[:350]) + '?locations=' + 'Black Market,' + city
+    url_json = API + ','.join(query_items[:350]) + '?locations=' + f'{first_loc},' + city
     response_api = requests.get(url_json)
     if response_api.status_code == 200:
         json_response = response_api.json()
@@ -104,7 +104,7 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False):
         elif qs_dict['sell_price_min'] == 0 and qs_dict['buy_price_max'] == 0:
             continue
         else:
-            if qs_dict['city'] != 'Black Market':
+            if qs_dict['city'] != first_loc:
                 item_name_white = qs_dict['item_id']
                 quality_white = quality_level[qs_dict['quality']]
                 price_market = qs_dict['sell_price_min']
@@ -181,19 +181,20 @@ def search(request):
     if request.method == 'GET':
         form = SearchForm(request.GET)
         if form.is_valid():
-            city = request.GET.get('city')
+            first_city = request.GET.get('first_city')
+            second_city = request.GET.get('second_city')
             item = request.GET.get('category_items')
             tiers = request.GET.getlist('tiers')
             charts = request.GET.getlist('chart')
             profit = request.GET.get('profit').strip()
             hours = request.GET.get('hours').strip()
-            list_item_view = get_items(city, item, charts, tiers, profit, hours)
+            list_item_view = get_items(second_city, item, charts, tiers, profit, hours, first_loc=first_city)
             if list_item_view:
                 pass
             else:
                 error = True
             return render(request, 'search.html', context={'items': option_items,
-                                                           'tiers': option_tier, 'town': city,
+                                                           'tiers': option_tier, 'town': f'{first_city}, {second_city}',
                                                            'list_item_view': list_item_view, 'form': form,
                                                            'error': error})
         else:
@@ -211,16 +212,15 @@ def development(request):
 
 
 @api_view(['GET'])
-def black_albion_api(request):
+def two_city_compare(request):
     if request.GET.get('format') != 'json':
         return HttpResponse('invalid parameters')
-    city = request.GET.get('city')
+    locations = request.GET.get('locations')
     item = request.GET.get('category_items')
-    tiers = request.GET.getlist('tier')
-    tiers_api = tiers[0].split(',')
-    charts = request.GET.getlist('chart')
-    charts_api = charts[0].split(',')
+    tiers = request.GET.getlist('tier')[0].split(',')
+    charts = request.GET.getlist('chart')[0].split(',')
     profit = request.GET.get('profit')
     hours = request.GET.get('hours')
-    json_response = get_items(city, item, charts_api, tiers_api, profit, hours, api=True)
-    return Response(json_response)
+    first_city, second_city = locations.split(',')
+    two_city_json_response = get_items(second_city, item, charts, tiers, profit, hours, api=True, first_loc=first_city)
+    return Response(two_city_json_response)
