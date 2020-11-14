@@ -39,6 +39,8 @@ class SearchForm(forms.Form):
         ('cloth_head', 'Тканевые колпаки'),
         ('capes', 'Плащи'),
         ('bags', 'Сумки'),
+        ('luxury', 'Роскошь'),
+        ('resources', 'Ресурсы'),
     )
     tiers_choices = (
         ('T4', 'T4'),

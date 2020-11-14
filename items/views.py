@@ -20,7 +20,7 @@ option_items = {'mellee_sword': 'Мечи', 'range': 'Оружие дальне�
                 'leather_shoes': 'Кожанные ботинки', 'leather_head': 'Кожанные капюшоны',
                 'leather_armor': 'Кожанные доспехи', 'cloth_shoes': 'Тканевые ботинки',
                 'cloth_armor': 'Тканевые доспехи', 'cloth_head': 'Тканевые колпаки', 'capes': 'Плащи',
-                'bags': 'Сумки'}
+                'bags': 'Сумки', 'resources':'Ресурсы'}
 
 option_tier = ['T4', 'T5', 'T6', 'T7', 'T8']
 quality_level = {1: 'Обычное', 2: 'Хорошее', 3: 'Потрясающее', 4: 'Превосходное', 5: 'Шедевр'}
@@ -86,7 +86,10 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='B
                 if enchant[chant] == '0':
                     full_item = f'{tiers[tir]}_{items[i]}'
                 else:
-                    full_item = f'{tiers[tir]}_{items[i]}{enchant[chant]}'
+                    if item == 'resources':
+                        full_item = f'{tiers[tir]}_{items[i]}_LEVEL{enchant[chant][-1]}'
+                    else:
+                        full_item = f'{tiers[tir]}_{items[i]}{enchant[chant]}'
                 query_items.append(full_item)
     url_json = API + ','.join(query_items[:350]) + '?locations=' + f'{first_loc},' + city
     response_api = requests.get(url_json)
