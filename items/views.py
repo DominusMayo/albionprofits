@@ -20,7 +20,7 @@ option_items = {'mellee_sword': 'Мечи', 'range': 'Оружие дальне�
                 'leather_shoes': 'Кожанные ботинки', 'leather_head': 'Кожанные капюшоны',
                 'leather_armor': 'Кожанные доспехи', 'cloth_shoes': 'Тканевые ботинки',
                 'cloth_armor': 'Тканевые доспехи', 'cloth_head': 'Тканевые колпаки', 'capes': 'Плащи',
-                'bags': 'Сумки', 'resources':'Ресурсы'}
+                'bags': 'Сумки', 'luxury': 'Роскошь', 'resources':'Ресурсы'}
 
 option_tier = ['T4', 'T5', 'T6', 'T7', 'T8']
 quality_level = {1: 'Обычное', 2: 'Хорошее', 3: 'Потрясающее', 4: 'Превосходное', 5: 'Шедевр'}
@@ -84,7 +84,10 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='B
         for tir in range(len(tiers)):
             for chant in range(len(enchant)):
                 if enchant[chant] == '0':
-                    full_item = f'{tiers[tir]}_{items[i]}'
+                    if item == 'luxury':
+                        full_item = f'{items[i]}{int(tiers[tir][-1])-3}'
+                    else:
+                        full_item = f'{tiers[tir]}_{items[i]}'
                 else:
                     if item == 'resources':
                         full_item = f'{tiers[tir]}_{items[i]}_LEVEL{enchant[chant][-1]}'
@@ -128,9 +131,13 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='B
             if items_black[i][0] == items_white[ind][0] \
                     and items_black[i][1] == items_white[ind][1]:
                 for k, v in russia_name.items():
-                    if k == items_black[i][0][3:]:
-                        name = items_black[i][0]
-                        item_name = name[:3] + v[0]
+                    if item == 'luxury':
+                        if k == items_black[i][0]:
+                            item_name = v[0]
+                    else:
+                        if k == items_black[i][0][3:]:
+                            name = items_black[i][0]
+                            item_name = name[:3] + v[0]
                 price_black_order = items_black[i][2]
                 price_black_fast = items_black[i][3]
                 price_auction = items_white[ind][2]
@@ -212,6 +219,10 @@ def info(request):
 
 def development(request):
     return render(request, 'api.html')
+
+
+def changelog(request):
+    return render(request, 'changelog.html')
 
 
 @api_view(['GET'])

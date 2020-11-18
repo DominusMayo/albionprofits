@@ -272,6 +272,20 @@ li {
 .btn-api:hover{
 	border:1px solid #fff;
 }
+.btn-changelog{
+	outline: none;
+	margin-bottom: 10px;
+    border: 1px solid #929292;
+    background: none;
+	border-radius: 10px;
+    color: #fff;
+    width: 135px;
+	height: 50px;
+    cursor: pointer;
+}
+.btn-changelog:hover{
+	border:1px solid #fff;
+}
 p{
 	color: white;
 }
@@ -335,6 +349,12 @@ tr .item:focus{
 	color: white;
 }
 .info-page{
+	color: white;
+	overflow: scroll;
+	height: 550px;
+	overflow-x: hidden;
+}
+.changelog-page{
 	color: white;
 	overflow: scroll;
 	height: 550px;

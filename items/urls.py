@@ -15,4 +15,5 @@ urlpatterns = [
     url('api/albion/prices/cities', views.two_city_compare, name='two_cities'),
     path('info', views.info, name='info_page'),
     path('api', views.development, name='api_info'),
+    path('changelog', views.changelog, name='changelog_page')
 ]
