@@ -1,0 +1,199 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-11-21 16:16+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\items\forms.py:23 .\items\views.py:17
+msgid "Мечи"
+msgstr "Swords"
+
+#: .\items\forms.py:24 .\items\views.py:17
+msgid "Оружие дальнего боя"
+msgstr "Ranged weapon"
+
+#: .\items\forms.py:25 .\items\views.py:17
+msgid "Булавы"
+msgstr "Maces"
+
+#: .\items\forms.py:26 .\items\views.py:18
+msgid "Шесты"
+msgstr "Quarterstaff"
+
+#: .\items\forms.py:27 .\items\views.py:18
+msgid "Молоты"
+msgstr "Hammers"
+
+#: .\items\forms.py:28 .\items\views.py:18
+msgid "Кинжалы"
+msgstr "Daggers"
+
+#: .\items\forms.py:29 .\items\views.py:19
+msgid "Топоры"
+msgstr "Axes"
+
+#: .\items\forms.py:30 .\items\views.py:19
+msgid "Посохи/Магия"
+msgstr "Staffs/Magic"
+
+#: .\items\forms.py:31 .\items\views.py:19
+msgid "Латные ботинки"
+msgstr "Plate boots"
+
+#: .\items\forms.py:32 .\items\views.py:20
+msgid "Латные шлемы"
+msgstr "Plate helmets"
+
+#: .\items\forms.py:33 .\items\views.py:20
+msgid "Латные доспехи"
+msgstr "Plate armor"
+
+#: .\items\forms.py:34 .\items\views.py:21
+msgid "Кожанные ботинки"
+msgstr "Leather boots"
+
+#: .\items\forms.py:35 .\items\views.py:21
+msgid "Кожанные капюшоны"
+msgstr "Leather hood"
+
+#: .\items\forms.py:36 .\items\views.py:22
+msgid "Кожанные доспехи"
+msgstr "Leather armor"
+
+#: .\items\forms.py:37 .\items\views.py:22
+msgid "Тканевые ботинки"
+msgstr "Cloth boots"
+
+#: .\items\forms.py:38 .\items\views.py:23
+msgid "Тканевые доспехи"
+msgstr "Cloth armor"
+
+#: .\items\forms.py:39 .\items\views.py:23
+msgid "Тканевые колпаки"
+msgstr "Fabric caps"
+
+#: .\items\forms.py:40 .\items\views.py:23
+msgid "Плащи"
+msgstr "Capes"
+
+#: .\items\forms.py:41 .\items\views.py:24
+msgid "Сумки"
+msgstr "Bags"
+
+#: .\items\forms.py:42 .\items\views.py:24
+msgid "Роскошь"
+msgstr "Luxury"
+
+#: .\items\forms.py:43 .\items\views.py:24
+msgid "Ресурсы"
+msgstr "Resources"
+
+#: .\items\forms.py:77
+msgid "Прибыль от"
+msgstr "Expected profit"
+
+#: .\items\forms.py:81
+msgid "Актуальность до"
+msgstr "Revelance up to"
+
+# .\items\views.py:167
+msgid " часов назад"
+msgstr " hours ago"
+
+# .\items\views.py:27
+msgid "Обычное"
+msgstr "Normal"
+
+# .\items\views.py:27
+msgid "Хорошее"
+msgstr "Good"
+
+# .\items\views.py:27
+msgid "Потрясающее"
+msgstr "Outstanding"
+
+# .\items\views.py:27
+msgid "Преосходное"
+msgstr "Excellent"
+
+# .\items\views.py:27
+msgid "Шедевр"
+msgstr "Masterpiece"
+
+#: .\templates\base.html:7
+msgid "Получение самых выгодных сделок Альбиона"
+msgstr "Getting the best deals in Albion"
+
+#: .\templates\base.html:9
+msgid "Получение самых выгодных сделок между городами и Чёрным рынком Албиона."
+msgstr "Getting the best deals between cities and the Black Market of Albion"
+
+#: .\templates\base.html:18
+msgid "Инфо"
+msgstr "Info"
+
+#: .\templates\base.html:19
+msgid "Для разработчиков"
+msgstr "For developers"
+
+#: .\templates\base.html:20
+msgid "На главную"
+msgstr "Home page"
+
+#: .\templates\base.html:21
+msgid "Изменения"
+msgstr "Changes"
+
+#: .\templates\form.html:26
+msgid "Поиск"
+msgstr "Search"
+
+#: .\templates\search.html:7
+msgid "Название"
+msgstr "Name"
+
+#: .\templates\search.html:8
+msgid "Качество"
+msgstr "Quality"
+
+#: .\templates\search.html:9
+msgid "Закуп"
+msgstr "Purchase"
+
+#: .\templates\search.html:10
+msgid "Продажа(заказ)"
+msgstr "Sale (order)"
+
+#: .\templates\search.html:11
+msgid "Продажа(БП)"
+msgstr "Sale (FS)"
+
+#: .\templates\search.html:12
+msgid "Прибыль (заказ)"
+msgstr "Profit (order)"
+
+#: .\templates\search.html:13
+msgid "Прибыль (БП)"
+msgstr "Profit (FS)"
+
+#: .\templates\search.html:14
+msgid "Актуальность информации"
+msgstr "Information relevance"
+
+#: .\templates\search.html:33
+msgid "Нет результатов"
+msgstr "No results"

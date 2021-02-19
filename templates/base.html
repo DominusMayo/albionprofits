@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 {% load static %}
+{% load i18n %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    {% block title %}<title>Получение самых выгодных сделок Альбиона</title>{% endblock %}
+    {% block title %}<title>{% trans 'Получение самых выгодных сделок Альбиона' %}</title>{% endblock %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Получение самых выгодных сделок между городами и Чёрным рынком Албиона.">
+    <meta name="description" content={% trans 'Получение самых выгодных сделок между городами и Чёрным рынком Албиона.' %}>
     <link rel = 'stylesheet' href="{% static 'items/css/styles.css' %}">
     <script src="{% static "items/js/jquery.min.js" %}"></script>
     <script src="{% static "items/js/script.js" %}"></script>
@@ -14,10 +15,10 @@
     <div class="wrapper">
         {% block info-btn %}
             <div class="info">
-                <button type="button" class="btn-info" id="info"><a href="{% url 'info_page' %}">Инфо</a></button>
-                <button type="button" class="btn-api" id="api"><a href="{% url 'api_info' %}">Для разработчиков</a></button>
-                <button type="button" class="btn-main" id="main"><a href="{% url 'item_view' %}">На главную</a></button>
-                <button type="button" class="btn-changelog" id="changelog"><a href="{% url 'changelog_page' %}">Изменения</a></button>
+                <button type="button" class="btn-info" id="info"><a href="{% url 'info_page' %}">{% trans 'Инфо' %}</a></button>
+                <button type="button" class="btn-api" id="api"><a href="{% url 'api_info' %}">{% trans 'Для разработчиков' %}</a></button>
+                <button type="button" class="btn-main" id="main"><a href="{% url 'item_view' %}">{% trans 'На главную'%}</a></button>
+                <button type="button" class="btn-changelog" id="changelog"><a href="{% url 'changelog_page' %}">{% trans 'Изменения'%}</a></button>
                 <a id="donate-link" href="https://ko-fi.com/albionprofits"><img src="{% static 'items/img/donate.png' %}" alt=""></a>
             </div>
         {% endblock info-btn%}

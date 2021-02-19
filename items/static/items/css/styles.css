@@ -31,12 +31,12 @@ body {
 }
 #results {
 	background: rgba(255, 255, 255, 0.06);
-	width: 980px;
+	width: 1200px;
     height: 88%;
     float: left;
     padding-left: 50px;
     overflow-y: scroll;
-	max-width: 800px;
+	max-width: 1500px;
 }
 
 .wrapper {

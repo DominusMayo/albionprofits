@@ -9,29 +9,30 @@ import requests
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.utils.translation import ugettext as _
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from items.forms import SearchForm
 
-option_items = {'mellee_sword': 'Мечи', 'range': 'Оружие дальнего боя', 'mellee_mace': 'Булавы',
-                'mellee_staff': 'Шесты', 'mellee_hammer': 'Молоты', 'mellee_daggers': 'Кинжалы',
-                'mellee_axe': 'Топоры', 'staff': 'Посохи/Магия', 'plate_shoes': 'Латные ботинки',
-                'plate_head': 'Латные шлемы', 'plate_armor': 'Латные доспехи',
-                'leather_shoes': 'Кожанные ботинки', 'leather_head': 'Кожанные капюшоны',
-                'leather_armor': 'Кожанные доспехи', 'cloth_shoes': 'Тканевые ботинки',
-                'cloth_armor': 'Тканевые доспехи', 'cloth_head': 'Тканевые колпаки', 'capes': 'Плащи',
-                'bags': 'Сумки', 'luxury': 'Роскошь', 'resources':'Ресурсы'}
+option_items = {'mellee_sword': _('Мечи'), 'range': _('Оружие дальнего боя'), 'mellee_mace': _('Булавы'),
+                'mellee_staff': _('Шесты'), 'mellee_hammer': _('Молоты'), 'mellee_daggers': _('Кинжалы'),
+                'mellee_axe': _('Топоры'), 'staff': _('Посохи/Магия'), 'plate_shoes': _('Латные ботинки'),
+                'plate_head': _('Латные шлемы'), 'plate_armor': _('Латные доспехи'),
+                'leather_shoes': _('Кожанные ботинки'), 'leather_head': _('Кожанные капюшоны'),
+                'leather_armor': _('Кожанные доспехи'), 'cloth_shoes': _('Тканевые ботинки'),
+                'cloth_armor': _('Тканевые доспехи'), 'cloth_head': _('Тканевые колпаки'), 'capes': _('Плащи'),
+                'bags': _('Сумки'), 'luxury': _('Роскошь'), 'resources':_('Ресурсы')}
 
 option_tier = ['T4', 'T5', 'T6', 'T7', 'T8']
-quality_level = {1: 'Обычное', 2: 'Хорошее', 3: 'Потрясающее', 4: 'Превосходное', 5: 'Шедевр'}
+quality_level = {1: _('Обычное'), 2: _('Хорошее'), 3: _('Потрясающее'), 4: _('Превосходное'), 5: _('Шедевр')}
 
 API = 'https://www.albion-online-data.com/api/v2/stats/prices/'
 
 with open(os.path.join(settings.BASE_DIR, 'items/static/items/json/items.json'), 'r') as f:
     full_name = json.load(f)
 
-with open(os.path.join(settings.BASE_DIR, 'items/static/items/json/russia.json'), 'r', encoding='utf-8') as f:
-    russia_name = json.load(f)
+with open(os.path.join(settings.BASE_DIR, 'items/static/items/json/items_name.json'), 'r', encoding='utf-8') as f:
+    items_name = json.load(f)
 
 
 def index(request):
@@ -50,7 +51,58 @@ def is_digit(string):
             return False
 
 
-def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='Black Market'):
+def all_items_category(list_items, category, tiers, enchant):
+    full_items_list = []
+    for i in range(len(list_items)):
+        for tir in range(len(tiers)):
+            for chant in range(len(enchant)):
+                if enchant[chant] == '0':
+                    if category == 'luxury':
+                        full_item = f'{list_items[i]}{int(tiers[tir][-1])-3}'
+                    else:
+                        full_item = f'{tiers[tir]}_{list_items[i]}'
+                else:
+                    if category == 'resources':
+                        full_item = f'{tiers[tir]}_{list_items[i]}_LEVEL{enchant[chant][-1]}'
+                    else:
+                        full_item = f'{tiers[tir]}_{list_items[i]}{enchant[chant]}'
+                full_items_list.append(full_item)
+    return full_items_list
+
+
+def white_black_market(json_items, first_loc='Black Market'):
+    items_black = []
+    items_white = []
+    for i in range(len(json_items)):
+        item_info = json_items[i]
+        if item_info['buy_price_min_date'] == "0001-01-01T00:00:00" \
+                or item_info['sell_price_min_date'] == "0001-01-01T00:00:00" \
+                or item_info['sell_price_max_date'] == "0001-01-01T00:00:00" \
+                or item_info['buy_price_max_date'] == "0001-01-01T00:00:00":
+            continue
+        elif item_info['sell_price_min'] == 0 and item_info['buy_price_max'] == 0:
+            continue
+        else:
+            if item_info['city'] != first_loc:
+                item_name_white = item_info['item_id']
+                quality_white = quality_level[item_info['quality']]
+                price_market = item_info['sell_price_min']
+                items_white.append([item_name_white, quality_white, price_market])
+            else:
+                quality = item_info['quality']
+                item_name_img = item_info['item_id']
+                price_black_order = item_info['sell_price_min']
+                price_black_fast = item_info['buy_price_max']
+                time_upd = datetime.datetime.strptime(item_info['buy_price_max_date'], '%Y-%m-%dT%H:%M:%S')
+                now_date = datetime.datetime.utcnow()
+                act_time = now_date - time_upd
+                time_to_view = str(act_time).split(':')[0]
+                items_black.append([item_name_img, quality_level[quality], price_black_order,
+                                    price_black_fast, time_to_view])
+    return items_black, items_white
+
+
+def get_items(city, item, enchant, tiers, profit, hours, user_lang, api=False, first_loc='Black Market'):
     """Fetch items with profit from albion data project
 
 
@@ -58,13 +110,15 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='B
 
 
     Args:
-        city: city for getting items.
+        city: city for selling items.
         item: item category to select items.
         enchant: enchant for items.
         tiers: item ranks.
         profit: profit for a given parameter.
         hours: hours for a given parameter.
         api: fetch for json api.
+        first_loc: first city for buying items.
+        user_lang: language user.
 
     Returns:
         Json-like object for view in table on site.
@@ -72,72 +126,43 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='B
         Return HttpResponse with 'invalid parameters' if parameters are not correct.
         Return HttpResponse with 'Произошла ошибка попробуйте позже.' if albion data project return Error
     """
-    query_items = []
-    items_black = []
-    items_white = []
-    list_item_view = []
-    items_view = {}
-    items = full_name[item]
     item_name = ''
     price_market = 0
-    for i in range(len(items)):
-        for tir in range(len(tiers)):
-            for chant in range(len(enchant)):
-                if enchant[chant] == '0':
-                    if item == 'luxury':
-                        full_item = f'{items[i]}{int(tiers[tir][-1])-3}'
-                    else:
-                        full_item = f'{tiers[tir]}_{items[i]}'
-                else:
-                    if item == 'resources':
-                        full_item = f'{tiers[tir]}_{items[i]}_LEVEL{enchant[chant][-1]}'
-                    else:
-                        full_item = f'{tiers[tir]}_{items[i]}{enchant[chant]}'
-                query_items.append(full_item)
+    items = full_name[item]
+    query_items = all_items_category(items, item, tiers, enchant)
+    list_item_view = []
+    items_view = {}
+
     url_json = API + ','.join(query_items[:350]) + '?locations=' + f'{first_loc},' + city
     response_api = requests.get(url_json)
+
     if response_api.status_code == 200:
         json_response = response_api.json()
     else:
         return HttpResponse('Произошла ошибка попробуйте позже.')
-    for i in range(len(json_response)):
-        qs_dict = json_response[i]
-        if qs_dict['buy_price_min_date'] == "0001-01-01T00:00:00" \
-                or qs_dict['sell_price_min_date'] == "0001-01-01T00:00:00" \
-                or qs_dict['sell_price_max_date'] == "0001-01-01T00:00:00" \
-                or qs_dict['buy_price_max_date'] == "0001-01-01T00:00:00":
-            continue
-        elif qs_dict['sell_price_min'] == 0 and qs_dict['buy_price_max'] == 0:
-            continue
-        else:
-            if qs_dict['city'] != first_loc:
-                item_name_white = qs_dict['item_id']
-                quality_white = quality_level[qs_dict['quality']]
-                price_market = qs_dict['sell_price_min']
-                items_white.append([item_name_white, quality_white, price_market])
-            else:
-                quality = qs_dict['quality']
-                item_name_img = qs_dict['item_id']
-                price_black_order = qs_dict['sell_price_min']
-                price_black_fast = qs_dict['buy_price_max']
-                time_upd = datetime.datetime.strptime(qs_dict['buy_price_max_date'], '%Y-%m-%dT%H:%M:%S')
-                now_date = datetime.datetime.utcnow()
-                act_time = now_date - time_upd
-                time_to_view = str(act_time).split(':')[0]
-                items_black.append([item_name_img, quality_level[quality], price_black_order,
-                                    price_black_fast, time_to_view])
+
+    items_black, items_white = white_black_market(json_response, first_loc)
+
     for i in range(len(items_black)):
         for ind in range(len(items_white)):
             if items_black[i][0] == items_white[ind][0] \
                     and items_black[i][1] == items_white[ind][1]:
-                for k, v in russia_name.items():
+                for k, v in items_name.items():
                     if item == 'luxury':
                         if k == items_black[i][0]:
                             item_name = v[0]
                     else:
-                        if k == items_black[i][0][3:]:
-                            name = items_black[i][0]
-                            item_name = name[:3] + v[0]
+                        if '@' in items_black[i][0][3:]:
+                            if k == items_black[i][0][3:-2]:
+                                name = items_black[i][0]
+                                item_name = name[:3] + v[0] + name[-2:]
+                                print(name, item_name)
+                        else:
+                            if k == items_black[i][0][3:]:
+                                name = items_black[i][0]
+                                item_name = name[:3] + v[0]
+                                print(name, item_name)
+                                
                 price_black_order = items_black[i][2]
                 price_black_fast = items_black[i][3]
                 price_auction = items_white[ind][2]
@@ -152,7 +177,7 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='B
                         items_view['item_name'] = item_name + items_white[ind][0][-2:]
                     else:
                         items_view['item_name'] = item_name
-                        items_view['quality'] = items_white[ind][1]
+                        items_view['quality'] = _(items_white[ind][1])
                         items_view['act_time'] = int(hour)
                         items_view['price_auction'] = price_auction
                         items_view['price_black_order'] = price_black_order
@@ -161,8 +186,8 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='B
                         items_view['profit_black_fast'] = total_price_fast
                 else:
                     items_view['item_name'] = item_name
-                    items_view['quality'] = items_white[ind][1]
-                    items_view['act_time'] = hour + ' часов назад'
+                    items_view['quality'] = _(items_white[ind][1])
+                    items_view['act_time'] = hour + _(' часов назад')
                     items_view['price_auction'] = '{:,}'.format(price_auction).replace(',', '.')
                     items_view['price_black_order'] = '{:,}'.format(price_black_order).replace(',', '.')
                     items_view['price_black_order'] = '{:,}'.format(price_black_order).replace(',', '.')
@@ -178,8 +203,7 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='B
                     return HttpResponse('Invalid parameters')
                 if not profit:
                     profit = 1
-                if total_price_order > int(profit) and price_market > 0 and act_time <= actual_hours \
-                        and item_name != '':
+                if total_price_order > int(profit) and act_time <= actual_hours:
                     list_item_view.append(copy.deepcopy(items_view))
                 else:
                     pass
@@ -198,7 +222,8 @@ def search(request):
             charts = request.GET.getlist('chart')
             profit = request.GET.get('profit').strip()
             hours = request.GET.get('hours').strip()
-            list_item_view = get_items(second_city, item, charts, tiers, profit, hours, first_loc=first_city)
+            user_lang = request.META.get('HTTP_ACCEPT_LANGUAGE', ['en-US', ]).split(',')[1].split(';')[0]
+            list_item_view = get_items(second_city, item, charts, tiers, profit, hours, user_lang, first_loc=first_city)
             if list_item_view:
                 pass
             else:
@@ -236,5 +261,6 @@ def two_city_compare(request):
     profit = request.GET.get('profit')
     hours = request.GET.get('hours')
     first_city, second_city = locations.split(',')
-    two_city_json_response = get_items(second_city, item, charts, tiers, profit, hours, api=True, first_loc=first_city)
+    user_lang = request.META.get('HTTP_ACCEPT_LANGUAGE', ['en-US', ]).split(',')[1].split(';')[0]
+    two_city_json_response = get_items(second_city, item, charts, tiers, profit, hours, user_lang, api=True, first_loc=first_city)
     return Response(two_city_json_response)

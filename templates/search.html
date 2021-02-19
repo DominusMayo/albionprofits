@@ -1,17 +1,18 @@
 {% load static %}
+{% load i18n %}
 
 {% block content %}
     <table id="table">
         <tr class="header">
             <td class="table_city">{{ town }}</td>
-            <td class="name">Название</td>
-            <td class="quality">Качество</td>
-            <td class="white_price_order">Закуп</td>
-            <td class="black_price_order">Продажа(ордер)</td>
-            <td class="black_price_buyout">Продажа(БП)</td>
-            <td class="profit_sell">Прибыль (ордер)</td>
-            <td class="profit_sell_buyout">Прибыль (БП)</td>
-            <td class="black_date_order">Актуальность информации</td>
+            <td class="name">{% trans 'Название' %}</td>
+            <td class="quality">{% trans 'Качество' %}</td>
+            <td class="white_price_order">{% trans 'Закуп' %}</td>
+            <td class="black_price_order">{% trans 'Продажа(заказ)' %}</td>
+            <td class="black_price_buyout">{% trans 'Продажа(БП)' %}</td>
+            <td class="profit_sell">{% trans 'Прибыль (заказ)' %}</td>
+            <td class="profit_sell_buyout">{% trans 'Прибыль (БП)' %}</td>
+            <td class="black_date_order">{% trans 'Актуальность информации' %}</td>
         </tr>
         {% if not error %}
             {% for v in list_item_view %}
@@ -30,7 +31,7 @@
                 </tr>
             {% endfor %}
         {% else %}
-            <td class="no-results">Нет результатов</td>
+            <td class="no-results">{% trans 'Нет результатов' %}</td>
         {% endif %}
     </table>
 {% endblock %}

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% block search-form %}
         <div class="search">
             <form action="/search" method="GET" id="search-form">
@@ -22,7 +23,7 @@
                     {{ form.hours }}
                 </div>
                 <div class="input-group mb-3 search-butt">
-                    <button type="submit" class="btn-one" id="search">Поиск</button>
+                    <button type="submit" class="btn-one" id="search">{% trans 'Поиск' %}</button>
             </div>
             </form>
         </div>

@@ -1,5 +1,5 @@
 from django import forms
-
+from django.utils.translation import ugettext_lazy as _
 
 class SearchForm(forms.Form):
     first_city_choices = (
@@ -20,27 +20,27 @@ class SearchForm(forms.Form):
         ('Fort Sterling', 'Fort Sterling'),
     )
     items_choices = (
-        ('mellee_sword', 'Мечи'),
-        ('range', 'Оружие дальнего боя'),
-        ('mellee_mace', 'Булавы'),
-        ('mellee_staff', 'Шесты'),
-        ('mellee_hammer', 'Молоты'),
-        ('mellee_daggers', 'Кинжалы'),
-        ('mellee_axe', 'Топоры'),
-        ('staff', 'Посохи/Магия'),
-        ('plate_shoes', 'Латные ботинки'),
-        ('plate_head', 'Латные шлемы'),
-        ('plate_armor', 'Латные доспехи'),
-        ('leather_shoes', 'Кожанные ботинки'),
-        ('leather_head', 'Кожанные капюшоны'),
-        ('leather_armor', 'Кожанные доспехи'),
-        ('cloth_shoes', 'Тканевые ботинки'),
-        ('cloth_armor', 'Тканевые доспехи'),
-        ('cloth_head', 'Тканевые колпаки'),
-        ('capes', 'Плащи'),
-        ('bags', 'Сумки'),
-        ('luxury', 'Роскошь'),
-        ('resources', 'Ресурсы'),
+        ('mellee_sword', _('Мечи')),
+        ('range', _('Оружие дальнего боя')),
+        ('mellee_mace', _('Булавы')),
+        ('mellee_staff', _('Шесты')),
+        ('mellee_hammer', _('Молоты')),
+        ('mellee_daggers', _('Кинжалы')),
+        ('mellee_axe', _('Топоры')),
+        ('staff', _('Посохи/Магия')),
+        ('plate_shoes', _('Латные ботинки')),
+        ('plate_head', _('Латные шлемы')),
+        ('plate_armor', _('Латные доспехи')),
+        ('leather_shoes', _('Кожанные ботинки')),
+        ('leather_head', _('Кожанные капюшоны')),
+        ('leather_armor', _('Кожанные доспехи')),
+        ('cloth_shoes', _('Тканевые ботинки')),
+        ('cloth_armor', _('Тканевые доспехи')),
+        ('cloth_head', _('Тканевые колпаки')),
+        ('capes', _('Плащи')),
+        ('bags', _('Сумки')),
+        ('luxury', _('Роскошь')),
+        ('resources', _('Ресурсы')),
     )
     tiers_choices = (
         ('T4', 'T4'),
@@ -74,9 +74,9 @@ class SearchForm(forms.Form):
                                       )
     profit = forms.IntegerField(required=False, label='', widget=forms.TextInput(attrs={'class': 'form-control',
                                                                                         'id': 'profit_limit',
-                                                                                        'placeholder': 'Прибыль от'}),
+                                                                                        'placeholder': _('Прибыль от')}),
                                 max_value=100000000)
     hours = forms.IntegerField(required=False, label='', widget=forms.TextInput(attrs={'class': 'form-control',
                                                                                        'id': 'hours_limit',
-                                                                                       'placeholder': 'Актуальность до'}),
+                                                                                       'placeholder': _('Актуальность до')}),
                                max_value=99)
