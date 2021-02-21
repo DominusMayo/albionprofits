@@ -142,16 +142,21 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='B
                 for k, v in russia_name.items():
                     if item == 'luxury':
                         if k == items_black[i][0]:
+                            name = items_black[i][0]
                             item_name = v[0]
                     else:
                         if '@' in items_black[i][0][3:]:
                             if k == items_black[i][0][3:-2]:
                                 name = items_black[i][0]
                                 item_name = name[:3] + v[0] + name[-2:]
+                        elif 'LEVEL' in items_black[i][0][3:-7]:
+                            if k == items_black[i][0]:
+                                name = items_black[i][0]
+                                item_name = name[:3] + v[0] + '@' + name[-1]
                         else:
                             if k == items_black[i][0][3:]:
                                 name = items_black[i][0]
-                                item_name = name[:3] + v[0]                               
+                                item_name = name[:3] + v[0]                         
                 price_black_order = items_black[i][2]
                 price_black_fast = items_black[i][3]
                 price_auction = items_white[ind][2]
@@ -184,7 +189,7 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='B
                     items_view['profit_black_order'] = '{:,}'.format(total_price_order).replace(',', '.')
                     items_view['price_black_fast'] = '{:,}'.format(price_black_fast).replace(',', '.')
                     items_view['profit_black_fast'] = '{:,}'.format(total_price_fast).replace(',', '.')
-                    items_view['img_url'] = f'items/img/{items_white[ind][0]}.png'
+                    items_view['img_url'] = f'items/img/{name}.png'
                 if not hours:
                     actual_hours = timedelta(hours=5)
                 elif is_digit(hours):
