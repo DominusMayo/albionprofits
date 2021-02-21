@@ -13,10 +13,11 @@
             <td class="profit_sell">{% trans 'Прибыль (заказ)' %}</td>
             <td class="profit_sell_buyout">{% trans 'Прибыль (БП)' %}</td>
             <td class="black_date_order">{% trans 'Актуальность информации' %}</td>
+            <td class="quantity_sold">Количество продаж 24ч</td>
         </tr>
         {% if not error %}
             {% for v in list_item_view %}
-                <tr class="item" data-item-id="">
+                <tr class="item">
                     <td class="table_city">
                         <img src="{% static v.img_url %}" alt="">
                     </td>
@@ -28,6 +29,7 @@
                     <td class="profit_sell plus"><b>{{ v.profit_black_order }}</b></td>
                     <td class="profit_sell_buyout"><b>{{ v.profit_black_fast }}</b></td>
                     <td class="black_date_order">{{ v.act_time }}</td>
+                    <td class="quantity_sold"><b></b></td>
                 </tr>
             {% endfor %}
         {% else %}

@@ -449,6 +449,11 @@ option {
 	display:block;
 	left: -85px;
 }
+.header .quantity_sold:hover:before{
+	content:'Количество проданных предметов на аукционе за 24ч';
+	display:block;
+	left: -140px;
+}
 ::-webkit-scrollbar-button {
 	width:5px;
 	height:0;
