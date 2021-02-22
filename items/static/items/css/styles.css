@@ -369,6 +369,11 @@ tr .item:focus{
     padding-right: 5px;
 	color: white;
 }
+.quantity_sold{
+	padding-left: 5px;
+    padding-right: 5px;
+	color: white;
+}
 .header .quality, .header .white_price_order, .header .black_price_order, .header .black_price_buyout, .header .profit_sell_buyout, .header .name{
 	border-right: 1px solid #454545;
 	border-left: 1px solid #454545;

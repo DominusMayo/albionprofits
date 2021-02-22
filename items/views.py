@@ -3,7 +3,7 @@ import copy
 import datetime
 import json
 import os
-from datetime import timedelta
+import datetime as dt
 
 import requests
 from django.conf import settings
@@ -24,8 +24,9 @@ option_items = {'mellee_sword': 'Мечи', 'range': 'Оружие дальне�
 
 option_tier = ['T4', 'T5', 'T6', 'T7', 'T8']
 quality_level = {1: 'Обычное', 2: 'Хорошее', 3: 'Потрясающее', 4: 'Превосходное', 5: 'Шедевр'}
+revers_quality_level = {'Обычное': 1, 'Хорошее': 2, 'Потрясающее': 3, 'Превосходное': 4, 'Шедевр':5}
 
-API = 'https://www.albion-online-data.com/api/v2/stats/prices/'
+API = 'https://www.albion-online-data.com/api/v2/stats/'
 
 with open(os.path.join(settings.BASE_DIR, 'items/static/items/json/items.json'), 'r') as f:
     full_name = json.load(f)
@@ -48,7 +49,6 @@ def is_digit(string):
             return True
         except ValueError:
             return False
-
 
 def all_items_category(list_items, category, tiers, enchant):
     full_items_list = []
@@ -101,6 +101,23 @@ def white_black_market(json_items, first_loc='Black Market'):
     return items_black, items_white
 
 
+def quantity_sold(name, quality, first_city, second_city):
+    date = dt.datetime.utcnow()
+    current_date = date.date()
+    yesterday_date = current_date - dt.timedelta(days=1)
+    url = f'{API}History/{name}.json?locations={second_city}&date={yesterday_date}&end_date={current_date}&qualities={quality}&time-scale=24'
+    json_sold = requests.get(url).json()
+    sold = 0
+    if json_sold:
+        for i in range(len(json_sold)):
+            quantity = json_sold[i]['data'][0]['item_count']
+            sold = sold + quantity
+    if sold == 0:
+        return 'No Information'
+    else:
+        return sold
+
+
 def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='Black Market'):
     """Fetch items with profit from albion data project
 
@@ -128,7 +145,7 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='B
     query_items = all_items_category(items, item, tiers, enchant)
     list_item_view = []
     items_view = {}
-    url_json = API + ','.join(query_items[:350]) + '?locations=' + f'{first_loc},' + city
+    url_json = API+ 'prices/' + ','.join(query_items[:350]) + '?locations=' + f'{first_loc},' + city
     response_api = requests.get(url_json)
     if response_api.status_code == 200:
         json_response = response_api.json()
@@ -163,10 +180,9 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='B
                 total_price_fast = price_black_fast - price_auction
                 total_price_order = price_black_order - price_auction
                 time = int(items_black[i][4])
-                act_time = timedelta(hours=time)
+                act_time = dt.timedelta(hours=time)
                 seconds = act_time.seconds
                 hour = str(seconds // 3600)
-
                 if api:
                     if '@' in items_white[ind][0]:
                         items_view['item_name'] = item_name + items_white[ind][0][-2:]
@@ -179,6 +195,7 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='B
                         items_view['profit_black_order'] = total_price_order
                         items_view['price_black_fast'] = price_black_fast
                         items_view['profit_black_fast'] = total_price_fast
+                        items_view['quantity_sold'] = quantity_sold(name, revers_quality_level[items_white[ind][1]], first_loc, city)
                 else:
                     items_view['item_name'] = item_name
                     items_view['quality'] = items_white[ind][1]
@@ -190,10 +207,11 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='B
                     items_view['price_black_fast'] = '{:,}'.format(price_black_fast).replace(',', '.')
                     items_view['profit_black_fast'] = '{:,}'.format(total_price_fast).replace(',', '.')
                     items_view['img_url'] = f'items/img/{name}.png'
+                    items_view['quantity_sold'] = quantity_sold(name, revers_quality_level[items_white[ind][1]], first_loc, city)
                 if not hours:
-                    actual_hours = timedelta(hours=5)
+                    actual_hours = dt.timedelta(hours=5)
                 elif is_digit(hours):
-                    actual_hours = timedelta(hours=int(hours))
+                    actual_hours = dt.timedelta(hours=int(hours))
                 else:
                     return HttpResponse('Invalid parameters')
                 if not profit:
