@@ -3,7 +3,6 @@ from django.utils.translation import ugettext_lazy as _
 
 class SearchForm(forms.Form):
     first_city_choices = (
-        ('Black Market', 'Black Market'),
         ('Martlock', 'Martlock'),
         ('Thetford', 'Thetford'),
         ('Bridgewatch', 'Bridgewatch'),
@@ -12,6 +11,7 @@ class SearchForm(forms.Form):
         ('Fort Sterling', 'Fort Sterling'),
     )
     city_choices = (
+        ('Black Market', 'Black Market'),
         ('Martlock', 'Martlock'),
         ('Thetford', 'Thetford'),
         ('Bridgewatch', 'Bridgewatch'),

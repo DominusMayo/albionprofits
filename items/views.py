@@ -82,7 +82,7 @@ def white_black_market(json_items, first_loc='Black Market'):
         elif item_info['sell_price_min'] == 0 and item_info['buy_price_max'] == 0:
             continue
         else:
-            if item_info['city'] != first_loc:
+            if item_info['city'] == first_loc:
                 item_name_white = item_info['item_id']
                 quality_white = quality_level[item_info['quality']]
                 price_market = item_info['sell_price_min']
@@ -173,7 +173,7 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='B
                         else:
                             if k == items_black[i][0][3:]:
                                 name = items_black[i][0]
-                                item_name = name[:3] + v[0]                         
+                                item_name = name[:3] + v[0]                   
                 price_black_order = items_black[i][2]
                 price_black_fast = items_black[i][3]
                 price_auction = items_white[ind][2]
@@ -183,7 +183,19 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='B
                 act_time = dt.timedelta(hours=time)
                 seconds = act_time.seconds
                 hour = str(seconds // 3600)
-                if api:
+                if not api:
+                    items_view['item_name'] = item_name
+                    items_view['quality'] = items_white[ind][1]
+                    items_view['act_time'] = hour + ' часов назад'
+                    items_view['price_auction'] = '{:,}'.format(price_auction).replace(',', '.')
+                    items_view['price_black_order'] = '{:,}'.format(price_black_order).replace(',', '.')
+                    items_view['price_black_order'] = '{:,}'.format(price_black_order).replace(',', '.')
+                    items_view['profit_black_order'] = '{:,}'.format(total_price_order).replace(',', '.')
+                    items_view['price_black_fast'] = '{:,}'.format(price_black_fast).replace(',', '.')
+                    items_view['profit_black_fast'] = '{:,}'.format(total_price_fast).replace(',', '.')
+                    items_view['img_url'] = f'items/img/{name}.png'
+                    items_view['quantity_sold'] = quantity_sold(name, revers_quality_level[items_white[ind][1]], first_loc, city)
+                else:
                     if '@' in items_white[ind][0]:
                         items_view['item_name'] = item_name + items_white[ind][0][-2:]
                     else:
@@ -196,18 +208,6 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='B
                         items_view['price_black_fast'] = price_black_fast
                         items_view['profit_black_fast'] = total_price_fast
                         items_view['quantity_sold'] = quantity_sold(name, revers_quality_level[items_white[ind][1]], first_loc, city)
-                else:
-                    items_view['item_name'] = item_name
-                    items_view['quality'] = items_white[ind][1]
-                    items_view['act_time'] = hour + ' часов назад'
-                    items_view['price_auction'] = '{:,}'.format(price_auction).replace(',', '.')
-                    items_view['price_black_order'] = '{:,}'.format(price_black_order).replace(',', '.')
-                    items_view['price_black_order'] = '{:,}'.format(price_black_order).replace(',', '.')
-                    items_view['profit_black_order'] = '{:,}'.format(total_price_order).replace(',', '.')
-                    items_view['price_black_fast'] = '{:,}'.format(price_black_fast).replace(',', '.')
-                    items_view['profit_black_fast'] = '{:,}'.format(total_price_fast).replace(',', '.')
-                    items_view['img_url'] = f'items/img/{name}.png'
-                    items_view['quantity_sold'] = quantity_sold(name, revers_quality_level[items_white[ind][1]], first_loc, city)
                 if not hours:
                     actual_hours = dt.timedelta(hours=5)
                 elif is_digit(hours):
@@ -221,7 +221,7 @@ def get_items(city, item, enchant, tiers, profit, hours, api=False, first_loc='B
                     list_item_view.append(copy.deepcopy(items_view))
                 else:
                     pass
-    return list_item_view
+    return list_item_view 
 
 
 def search(request):
