@@ -1,15 +1,19 @@
 @charset "utf-8";
-body {
-	overflow: hidden;
+html, body {
 	background: #202020;
+	margin: 0;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
 }
 .search {
-	padding: 20px;
-    background: black;
+	padding-top: 15px;
+    border: 1px solid #454545;
+    border-top: 0px;
+    height: 88%;
 	float: left;
-	position: fixed;
-	height: 580px;
-	border: 1px solid #454545;
+	padding: 15px;
+	position: absolute;	
 }
 .search .form-control:hover {
 	cursor: pointer;
@@ -23,27 +27,31 @@ body {
     background-color: #f8f9fa;
     border-color: #f8f9fa;
 	max-width: 207px;
-	margin-top: 20px;
 }
 .search .tier, .search .chart {
-	width: 130px;
+	width: 100%;
     height: 175px;
 }
 #results {
+	background: rgba(255, 255, 255, 0);
+    border-right: 1px solid #454545;
+    border-bottom: 1px solid #454545;
+    margin-left: 207px;
 	background: rgba(255, 255, 255, 0.06);
-	width: 1200px;
-    height: 88%;
-    float: left;
-    padding-left: 50px;
-    overflow-y: scroll;
-	max-width: 1500px;
+    width: calc(100% - 220px);
+    max-width: 1200px;
+	position: absolute;
+	height: 88%;
+	overflow-y: scroll;
 }
 
 .wrapper {
 	background: black fixed;
 	background-size: cover;
-	min-height: 90%;
+	min-height: 100%;
 	width: 1200px;
+	margin: 0 auto;
+	position: relative;
 }
 #results .item {
 	width: 50%;
@@ -65,10 +73,10 @@ body {
 	width: 100px;
 }
 #profit_limit{
-	padding-top: 20px;
+	padding-top: 15px;
 }
 #hours_limit{
-	padding-top: 20px;
+	padding-top: 0px;
 }
 .item .profit_sell {
 	text-align: center;
@@ -113,8 +121,7 @@ body {
 	background-color: #717171;
 }
 #tier {
-	height: 160px;
-    top: 6px;
+	height: 200px;
     width: 40px;
     overflow: hidden;
 	text-align: center;
@@ -125,7 +132,6 @@ body {
 
 #chart {
 	height: 160px;
-    top: 6px;
     width:40px;
     overflow: hidden;
 	text-align: center;
@@ -146,15 +152,6 @@ body {
     background-color: #531405;
     color: #fff;
     height: 35px;
-}
-.search .form-control {
-    color: #ffffff;
-    background-color: #202020;
-	max-width: 195px;
-	border: 1px solid #7d7d7d;
-	padding-left: 10px;
-    outline: none;
-	border-radius: 0;
 }
 .search .form-control:focus{
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0);
@@ -209,7 +206,12 @@ li {
 	border: 0;
 	border-radius: 1px;
     border-bottom: 1px solid #929292;
-	padding: 0 0 10px;
+	padding: 0 0 3px;
+	color: #ffffff;
+	background-color: #202020;
+	max-width: 195px;
+	outline: none;
+
 }
 .btn-one{
 	margin-right:0;
@@ -233,18 +235,7 @@ li {
 	font-size: large;
 	padding-left: 50px;
 }
-.results{
-	background: rgba(255, 255, 255, 0);
-	width: 81%;
-	height: 600px;
-	float:left;
-	border-right: 1px solid #454545;
-    border-bottom: 1px solid #454545;
-	border-top: 1px solid #454545;
-	margin-left: 200px;
-    overflow: scroll;
-}
-.btn-info{
+.btn-infosite{
 	outline: none;
 	margin-bottom: 10px;
     border: 1px solid #929292;
@@ -255,7 +246,7 @@ li {
 	height: 50px;
     cursor: pointer;
 }
-.btn-info:hover{
+.btn-infosite:hover{
 	border:1px solid #fff;
 }
 .btn-api{
@@ -303,21 +294,19 @@ p{
 .btn-main:hover{
 	border:1px solid #fff;
 }
-.results::-webkit-scrollbar{
+
+#results::-webkit-scrollbar{
 	width: 20px;
 	height: 20px;
 }
-.results::-webkit-scrollbar-thumb:vertical {
+#results::-webkit-scrollbar-thumb:vertical {
 height: 50px;
 background-color: #ccc;
 border: 1px solid #474747;
 -webkit-border-radius: 6px;
 }
-.results::-webkit-scrollbar-thumb:horizontal{
+#results::-webkit-scrollbar-thumb:horizontal{
 width: 0;
-}
-#tier, #chart {
-    padding: 0 5px;
 }
 .header {
     background-color: rgba(69, 69, 69, 0.3);
@@ -350,7 +339,7 @@ tr .item:focus{
 }
 .info-page{
 	color: white;
-	overflow: scroll;
+	overflow: auto;
 	height: 550px;
 	overflow-x: hidden;
 }
@@ -412,6 +401,94 @@ option {
 	transition: all .5s;
 	text-align: left;
 	word-wrap: break-word;
+}
+.error_msg{
+	color: red;
+}
+#auth_form, #reg_form {
+    border: 1px solid #454545;
+    padding: 35px;
+    width: 380px;
+    height: auto;
+}
+#auth_form {
+    width: 390px;
+    height: 320px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#auth_form .input-group-text, #reg_form .input-group-text {
+    border: 1px solid #454545;
+    background: #454545;
+    color: #fff;
+    border-radius: 0;
+}
+#auth_form .input-group-text {
+    width: 64px;
+}
+.verified{
+	color: white;
+}
+.unverified{
+	color: white;
+}
+.btn-profile{
+	outline: none;
+	margin-bottom: 10px;
+    border: 1px solid #929292;
+    background: none;
+	border-radius: 10px;
+    color: #fff;
+    width: 135px;
+	height: 50px;
+    cursor: pointer;
+	float: right;
+}
+.btn-profile:hover{
+	border:1px solid #fff;
+}
+#profile{
+	margin-left: 250px;
+	padding-left: 15px;
+}
+#auth_form .row .form-control, #auth_form .row .btn.btn-info, #reg_form .row .btn.btn-info, #reg_form .row .form-control {
+	width: 100%;
+    padding: 15px 0;
+	margin-top: 10px;
+	margin-left: 67px;
+}
+.btn-info {
+    color: #ffffff;
+    background-color: #202020;
+    border-color: #ffffff;
+    border-radius: 0;
+    margin-top: 0px;
+    transition: all .5s;
+    margin-right: 5px;
+}
+.btn-info:hover{
+	color:#202020;
+	background-color: white;
+	border-color: black;
+}
+
+.info{
+	display: flex;
+}
+.change_lang{
+	display: flex;
+	float: right;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+.language_select {
+	background-color: #202020;
+	color: #ffffff;
+	float: left;
+	margin-top: 10px;
+	margin-left: 15px;
 }
 .header .table_city:hover:before{
 	content:'Город';

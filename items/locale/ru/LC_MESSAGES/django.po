@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# DominusMayo <vzukov642@gmail.com>, 2021 YEAR.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-12 14:58+0300\n"
+"POT-Creation-Date: 2021-03-12 15:34+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,123 +16,125 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #: .\items\forms.py:23
 msgid "Мечи"
-msgstr "Swords"
+msgstr ""
 
 #: .\items\forms.py:24
 msgid "Оружие дальнего боя"
-msgstr "Ranged weapon"
+msgstr ""
 
 #: .\items\forms.py:25
 msgid "Булавы"
-msgstr "Maces"
+msgstr ""
 
 #: .\items\forms.py:26
 msgid "Шесты"
-msgstr "Quarterstaff"
+msgstr ""
 
 #: .\items\forms.py:27
 msgid "Молоты"
-msgstr "Hammers"
+msgstr ""
 
 #: .\items\forms.py:28
 msgid "Кинжалы"
-msgstr "Daggers"
+msgstr ""
 
 #: .\items\forms.py:29
 msgid "Топоры"
-msgstr "Axes"
+msgstr ""
 
 #: .\items\forms.py:30
 msgid "Посохи/Магия"
-msgstr "Staffs/Magic"
+msgstr ""
 
 #: .\items\forms.py:31
 msgid "Латные ботинки"
-msgstr "Plate boots"
+msgstr ""
 
 #: .\items\forms.py:32
 msgid "Латные шлемы"
-msgstr "Plate helmets"
+msgstr ""
 
 #: .\items\forms.py:33
 msgid "Латные доспехи"
-msgstr "Plate armor"
+msgstr ""
 
 #: .\items\forms.py:34
 msgid "Кожанные ботинки"
-msgstr "Leather boots"
+msgstr ""
 
 #: .\items\forms.py:35
 msgid "Кожанные капюшоны"
-msgstr "Leather hood"
+msgstr ""
 
 #: .\items\forms.py:36
 msgid "Кожанные доспехи"
-msgstr "Leather armor"
+msgstr ""
 
 #: .\items\forms.py:37
 msgid "Тканевые ботинки"
-msgstr "Cloth boots"
+msgstr ""
 
 #: .\items\forms.py:38
 msgid "Тканевые доспехи"
-msgstr "Cloth armor"
+msgstr ""
 
 #: .\items\forms.py:39
 msgid "Тканевые колпаки"
-msgstr "Fabric caps"
+msgstr ""
 
 #: .\items\forms.py:40
 msgid "Плащи"
-msgstr "Capes"
+msgstr ""
 
 #: .\items\forms.py:41
 msgid "Сумки"
-msgstr "Bags"
+msgstr ""
 
 #: .\items\forms.py:42
 msgid "Роскошь"
-msgstr "Luxury"
+msgstr ""
 
 #: .\items\forms.py:43
 msgid "Ресурсы"
-msgstr "Resources"
+msgstr ""
 
 #: .\items\forms.py:77
 msgid "Прибыль от"
-msgstr "Expected profit"
+msgstr ""
 
 #: .\items\forms.py:81
 msgid "Актуальность до"
-msgstr "Revelance up to"
+msgstr ""
 
 #: .\templates\account\base.html:7 .\templates\base.html:7
 msgid "Получение самых выгодных сделок Альбиона"
-msgstr "Getting the best deals in Albion"
+msgstr ""
 
 #: .\templates\account\base.html:9 .\templates\base.html:9
 msgid "Получение самых выгодных сделок между городами и Чёрным рынком Албиона."
-msgstr "Getting the best deals between cities and the Black Market of Albion"
+msgstr ""
 
 #: .\templates\account\base.html:24 .\templates\base.html:24
 msgid "Инфо"
-msgstr "Info"
+msgstr ""
 
 #: .\templates\account\base.html:25 .\templates\base.html:25
 msgid "Для разработчиков"
-msgstr "For Developers"
+msgstr ""
 
 #: .\templates\account\base.html:26 .\templates\base.html:26
 msgid "На главную"
-msgstr "Home Page"
+msgstr ""
 
 #: .\templates\account\base.html:27 .\templates\base.html:27
 msgid "Изменения"
-msgstr "Changes"
+msgstr ""
 
 #: .\templates\account\email.html:5 .\templates\account\email.html:8
 msgid "E-mail Addresses"
@@ -140,65 +142,67 @@ msgstr ""
 
 #: .\templates\account\email.html:10
 msgid "The following e-mail addresses are associated with your account:"
-msgstr ""
+msgstr "С вашей учетной записью связаны следующие адреса электронной почты:"
 
 #: .\templates\account\email.html:24
 msgid "Verified"
-msgstr ""
+msgstr "Подтверждён"
 
 #: .\templates\account\email.html:26
 msgid "Unverified"
-msgstr ""
+msgstr "Не подтверждён"
 
 #: .\templates\account\email.html:28
 msgid "Primary"
-msgstr ""
+msgstr "Основной"
 
 #: .\templates\account\email.html:34
 msgid "Make Primary"
-msgstr ""
+msgstr "Сделать основным"
 
 #: .\templates\account\email.html:35
 msgid "Re-send Verification"
-msgstr ""
+msgstr "Переотправить подтверждение email"
 
 #: .\templates\account\email.html:36
 msgid "Remove"
-msgstr ""
+msgstr "Удалить"
 
 #: .\templates\account\email.html:43
 msgid "Warning:"
-msgstr ""
+msgstr "Предупреждение"
 
 #: .\templates\account\email.html:43
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
 "an e-mail address so you can receive notifications, reset your password, etc."
-msgstr ""
+msgstr "В настоящее время у вас не настроен адрес электронной почты. Вам действительно стоит добавить"
+" адрес электронной почты, по которому вы можете получать уведомления, сбрасывать пароль и т. д."
 
 #: .\templates\account\email.html:48
 msgid "Add E-mail Address"
-msgstr ""
+msgstr "Добавить E-mail Адресс"
 
 #: .\templates\account\email.html:53
 msgid "Add E-mail"
-msgstr ""
+msgstr "Добавить E-mail"
 
 #: .\templates\account\email.html:63
 msgid "Do you really want to remove the selected e-mail address?"
-msgstr ""
+msgstr "Вы действительно хотите удалить выбранный адрес электронной почты?"
 
 #: .\templates\account\email\base_message.txt:1
 #, python-format
 msgid "Hello from %(site_name)s!"
-msgstr ""
+msgstr "Привет с %(site_name)s!"
 
 #: .\templates\account\email\base_message.txt:5
 #, python-format
 msgid ""
 "Thank you for using %(site_name)s!\n"
 "%(site_domain)s"
-msgstr ""
+msgstr "Спасибо вам за использование %(site_name)s!\n"
+"%(site_domain)s"
 
 #: .\templates\account\email\email_confirmation_message.txt:5
 #, python-format
@@ -207,11 +211,14 @@ msgid ""
 "mail address to register an account on %(site_domain)s.\n"
 "\n"
 "To confirm this is correct, go to %(activate_url)s"
-msgstr ""
+msgstr "Вы получили это письмо, потому что пользователь %(user_display)s предоставил ваш адрес электронной почты"
+" почтовый адрес для регистрации аккаунта на %(site_domain)s.\n"
+"\n"
+"Чтобы убедиться, что это правильно, перейдите на %(activate_url)s"
 
 #: .\templates\account\email\email_confirmation_subject.txt:3
 msgid "Please Confirm Your E-mail Address"
-msgstr ""
+msgstr "Пожалуйста Подтвердите Ваш электронный адресс"
 
 #: .\templates\account\email\password_reset_key_message.txt:4
 msgid ""
@@ -219,113 +226,120 @@ msgid ""
 "password for your user account.\n"
 "It can be safely ignored if you did not request a password reset. Click the "
 "link below to reset your password."
-msgstr ""
+msgstr "Вы получили это письмо, потому что вы или кто-то другой запросил"
+" пароль для вашей учетной записи. \n"
+"Его можно проигнорировать, если вы не запрашивали сброс пароля. Щелкните"
+" на ссылку ниже, чтобы сбросить пароль."
 
 #: .\templates\account\email\password_reset_key_message.txt:9
 #, python-format
 msgid "In case you forgot, your username is %(username)s."
-msgstr ""
+msgstr "Если вы забыли, ваше имя пользователя %(username)s."
 
 #: .\templates\account\email\password_reset_key_subject.txt:3
 msgid "Password Reset E-mail"
-msgstr ""
+msgstr "Сброс пароля электронной почты"
 
 #: .\templates\account\email_confirm.html:6
 #: .\templates\account\email_confirm.html:10
 msgid "Confirm E-mail Address"
-msgstr ""
+msgstr "Подтвердите адрес электронной почты"
 
 #: .\templates\account\email_confirm.html:16
 #, python-format
 msgid ""
 "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
 "address for user %(user_display)s."
-msgstr ""
+msgstr "Подтвердите, что <a href=\"mailto:%(email)s\">%(email)s</a> - это электронная почта"
+" пользователя %(user_display)s."
 
 #: .\templates\account\email_confirm.html:20
 msgid "Confirm"
-msgstr ""
+msgstr "Подтвердить"
 
 #: .\templates\account\email_confirm.html:27
 #, python-format
 msgid ""
 "This e-mail confirmation link expired or is invalid. Please <a href="
 "\"%(email_url)s\">issue a new e-mail confirmation request</a>."
-msgstr ""
+msgstr "Срок действия ссылки для подтверждения по электронной почте истек или она недействительна." 
+"Пожалуйста, <a href=\"%(email_url)s\"> отправте новый запрос на подтверждение по электронной почте</a>"
 
 #: .\templates\account\login.html:6
 msgid "Log In"
-msgstr ""
+msgstr "Войти"
 
 #: .\templates\account\login.html:13
 #: .\templates\account\password_change.html:14
 msgid "Forgot Password?"
-msgstr ""
+msgstr "Забыли Пароль?"
 
 #: .\templates\account\login.html:14 .\templates\base.html:34
 msgid "Sign In"
-msgstr ""
+msgstr "Войти"
 
 #: .\templates\account\login.html:16
 #, python-format
 msgid ""
-"Still don't have an account? Then create one <a href=\" %(signup_url)s"
-"\"> here </a>."
-msgstr ""
+"Still don't have an account? Then create it <a href=\"%(signup_url)s\">here</"
+"a>."
+msgstr "Всё ещё не имеешь аккаунт? Тогда создай его <a href=\"%(signup_url)s\">здесь</"
+"a>."
+
 
 #: .\templates\account\logout.html:4 .\templates\account\logout.html:8
 #: .\templates\account\logout.html:17
 msgid "Sign Out"
-msgstr ""
+msgstr "Выход"
 
 #: .\templates\account\logout.html:10
 msgid "Are you sure you want to sign out?"
-msgstr ""
+msgstr "Вы действительно хотите выйти?"
 
 #: .\templates\account\messages\cannot_delete_primary_email.txt:2
 #, python-format
 msgid "You cannot remove your primary e-mail address (%(email)s)."
-msgstr ""
+msgstr "Вы не можете удалить вашу основную почту (%(email)s)."
 
 #: .\templates\account\messages\email_confirmation_sent.txt:2
 #, python-format
 msgid "Confirmation e-mail sent to %(email)s."
-msgstr ""
+msgstr "Подтвердение почты отправлено на %(email)s."
 
 #: .\templates\account\messages\email_confirmed.txt:2
 #, python-format
 msgid "You have confirmed %(email)s."
-msgstr ""
+msgstr "Вы подтвердили %(email)s."
 
 #: .\templates\account\messages\email_deleted.txt:2
 #, python-format
 msgid "Removed e-mail address %(email)s."
-msgstr ""
+msgstr "Удалён электронный адрес %(email)s."
 
 #: .\templates\account\messages\logged_in.txt:4
 #, python-format
 msgid "Successfully signed in as %(name)s."
-msgstr ""
+msgstr "Успешный вход как %(name)s."
 
 #: .\templates\account\messages\logged_out.txt:2
 msgid "You have signed out."
-msgstr ""
+msgstr "Вы вышли из аккаунта"
 
 #: .\templates\account\messages\password_changed.txt:2
 msgid "Password successfully changed."
-msgstr ""
+msgstr "Пароль успешно изменён"
 
 #: .\templates\account\messages\password_set.txt:2
 msgid "Password successfully set."
-msgstr ""
+msgstr "Пароль успешно установлен"
 
 #: .\templates\account\messages\primary_email_set.txt:2
 msgid "Primary e-mail address set."
-msgstr ""
+msgstr "Основной адрес почты установлен"
 
 #: .\templates\account\messages\unverified_primary_email.txt:2
 msgid "Your primary e-mail address must be verified."
-msgstr ""
+msgstr "Ваш первичный адрес должен быть подтверждён"
 
 #: .\templates\account\password_change.html:5
 #: .\templates\account\password_change.html:8
@@ -335,24 +349,25 @@ msgstr ""
 #: .\templates\account\password_reset_from_key_done.html:4
 #: .\templates\account\password_reset_from_key_done.html:7
 msgid "Change Password"
-msgstr ""
+msgstr "Изменить пароль"
 
 #: .\templates\account\password_reset.html:6
 #: .\templates\account\password_reset.html:9
 #: .\templates\account\password_reset_done.html:6
 #: .\templates\account\password_reset_done.html:9
 msgid "Password Reset"
-msgstr ""
+msgstr "Сбросить пароль"
 
 #: .\templates\account\password_reset.html:14
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll send you "
 "an e-mail allowing you to reset it."
-msgstr ""
+msgstr "Забыли пароль? Введите ниже свой адрес электронной почты, и мы вам пришлем"
+"электронное письмо, позволяющее сбросить его."
 
 #: .\templates\account\password_reset.html:19
 msgid "Reset My Password"
-msgstr ""
+msgstr "Сбросить Мой Пароль"
 
 #: .\templates\account\password_reset.html:22
 msgid "Please contact us if you have any trouble resetting your password."
@@ -442,48 +457,48 @@ msgstr ""
 
 #: .\templates\base.html:30
 msgid "Profile"
-msgstr ""
+msgstr "Профиль"
 
 #: .\templates\base.html:31
 msgid "Log Out"
-msgstr ""
+msgstr "Выход"
 
 #: .\templates\form.html:26
 msgid "Поиск"
-msgstr "Search"
+msgstr ""
 
 #: .\templates\search.html:8
 msgid "Название"
-msgstr "Name"
+msgstr ""
 
 #: .\templates\search.html:9
 msgid "Качество"
-msgstr "Quality"
+msgstr ""
 
 #: .\templates\search.html:10
 msgid "Закуп"
-msgstr "Purchase"
+msgstr ""
 
 #: .\templates\search.html:11
 msgid "Продажа(заказ)"
-msgstr "Sale(order)"
+msgstr ""
 
 #: .\templates\search.html:12
 msgid "Продажа(БП)"
-msgstr "Sale(FS)"
+msgstr ""
 
 #: .\templates\search.html:13
 msgid "Прибыль (заказ)"
-msgstr "Profit (order)"
+msgstr ""
 
 #: .\templates\search.html:14
 msgid "Прибыль (БП)"
-msgstr "Profit (FS)"
+msgstr ""
 
 #: .\templates\search.html:15
 msgid "Актуальность информации"
-msgstr "Actual information"
+msgstr ""
 
 #: .\templates\search.html:36
 msgid "Нет результатов"
-msgstr "No results"
+msgstr ""

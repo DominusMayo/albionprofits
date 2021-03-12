@@ -30,9 +30,25 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['albionprofits.ru']
 
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_USERNAME_BLACKLIST = ['administrator', 'help',
+                              'helpdesk', 'operator',
+                              'root', 'superadmin',
+                              'superuser', 'info@',
+                              'admin', 'webmaster',
+                              'areariservata', 'blog'
+                              '@', 'master']
+
+
+EMAIL_HOST = os.environ['EMAIL_HOST_ALB']
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER_ALB']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD_ALB']
+# если используется защищенное соединение
+EMAIL_PORT = os.environ['EMAIL_HOST_PORT_ALB']
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'no-reply@albionprofits.ru'
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,9 +56,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'items.apps.ItemsConfig',
     'rest_framework',
+    'allauth',
+    'allauth.account',
 ]
+SITE_ID = 12
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_UNIQUE_EMAIL = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -60,7 +85,7 @@ ROOT_URLCONF = 'albiondiff.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR,'templates', 'account')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,6 +97,13 @@ TEMPLATES = [
         },
     },
 ]
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 WSGI_APPLICATION = 'albiondiff.wsgi.application'
 
@@ -81,8 +113,12 @@ WSGI_APPLICATION = 'albiondiff.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'mydatabase',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ['NAME_DB_ALB'],
+        'USER': os.environ['USER_DB_ALB'],
+        'PASSWORD': os.environ['PSW_DB_ALB'],
+        'HOST': os.environ['HOST_DB_ALB'],
+        'PORT': os.environ['PORT_DB_ALB'],
     }
 }
 
@@ -122,7 +158,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 LOCALE_PATHS = (
-    'locale',
     os.path.join(PROJECT_DIR, 'locale'),
 )
 

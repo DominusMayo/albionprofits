@@ -9,6 +9,7 @@ import requests
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from items.forms import SearchForm
@@ -35,6 +36,12 @@ with open(os.path.join(settings.BASE_DIR, 'items/static/items/json/items_name.js
     russia_name = json.load(f)
 
 
+@login_required
+def profile(request):
+    return render(request, 'account/profile.html')
+
+
+@login_required
 def index(request):
     form = SearchForm()
     return render(request, 'form.html', context={'form': form})
@@ -262,6 +269,9 @@ def development(request):
 
 def changelog(request):
     return render(request, 'changelog.html')
+
+def login(request):
+    return render(request, 'login.html')
 
 
 @api_view(['GET'])

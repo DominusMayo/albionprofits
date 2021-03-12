@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    {% block title %}<title>{% trans 'Получение самых выгодных сделок Альбиона' %}</title>{% endblock %}
+    <title>{% block head_title %}{% trans 'Получение самых выгодных сделок Альбиона' %}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content={% trans 'Получение самых выгодных сделок между городами и Чёрным рынком Албиона.' %}>
     {% block linkcss %}
@@ -26,25 +26,25 @@
                 <button type="button" class="btn-main" id="main"><a href="{% url 'item_view' %}">{% trans 'На главную'%}</a></button>
                 <button type="button" class="btn-changelog" id="changelog"><a href="{% url 'changelog_page' %}">{% trans 'Изменения'%}</a></button>
                 <a id="donate-link" href="https://ko-fi.com/albionprofits"><img src="{% static 'items/img/donate.png' %}" alt=""></a>
-                {% if user.is_authenticated%}
-                <button type="button" class="btn-profile" id="profile"><a href="{% url 'account_profile' %}">{% trans 'Profile' %}</a></button>
-                <button type="button" class="btn-profile" id="signout"><a href="{% url 'account_logout' %}">{% trans 'Log Out' %}</a></button>
-                {% else %}
-                <button type="button" class="btn-profile" id="register"><a href="{% url 'account_signup' %}">{% trans 'Sign Up' %}</a></button>
-                <button type="button" class="btn-profile" id="login"><a href="{% url 'account_login' %}">{% trans 'Sign In' %}</a></button>
-                {% endif %}
+                <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                    <input name="next" type="hidden" value="{{ redirect_to }}">
+                    <select name="language" class="language_select">
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% get_available_languages as LANGUAGES %}
+                        {% get_language_info_list for LANGUAGES as languages %}
+                        {% for language in languages %}
+                            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                {{ language.name_local }} ({{ language.code }})
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <input type="submit" class="btn-info change_lang" value="Go">
+                </form>
             </div>
         {% endblock info-btn%}
 
         {% block content %}
         {% endblock content %}
-
-        {% block search-form %}
-        {% endblock search-form %}
-
-        {% block search-result %}
-        <div id="results"></div>
-        {% endblock search-result %}
 
     </div>
 </body>

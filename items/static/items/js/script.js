@@ -19,7 +19,7 @@ $(document).on('click', '#search', function (e){
     dataType: "html",
     cache: false,
     success: function(data) {
-      $('.results').append(data);
+      $('#results').append(data);
     }
   });
 });
